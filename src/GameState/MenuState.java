@@ -67,7 +67,8 @@ public class MenuState extends GameState {
         if (currentChoice == 2) {
             // tutorial
         }
-        if (currentChoice == 2) {
+        if (currentChoice == 3) {
+            // quit
             System.exit(0);
         }
     }
@@ -75,6 +76,7 @@ public class MenuState extends GameState {
     public void handleInput() {
         if (Keys.isPressed(Keys.ENTER)) {
             select();
+            System.out.println(currentChoice);
         }
         if (Keys.isPressed(Keys.W)) {
             currentChoice--;
