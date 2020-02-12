@@ -1,17 +1,18 @@
-package game;
+package Main;
 
 import javax.swing.JFrame;
 
 public class Game extends JFrame {
     Game () {
+        // JFrame initialization
         setTitle("Dungeon Game");
-        setSize(300, 200);
+        setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
     }
 
     public void run() {
-        // main game loop
+        this.setContentPane(new GamePanel());
+        this.setVisible(true);
     }
 }

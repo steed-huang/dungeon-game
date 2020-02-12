@@ -1,4 +1,4 @@
-package world;
+package World;
 
 public class Map {
 }
