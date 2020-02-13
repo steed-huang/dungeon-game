@@ -1,7 +1,7 @@
 package GameState;
 
 import Handler.Keys;
-import TileMap.Background;
+import Images.Background;
 import java.awt.*;
 
 public class MenuState extends GameState {
@@ -17,21 +17,19 @@ public class MenuState extends GameState {
     public MenuState(GameStateManager gsm) {
         this.gsm = gsm;
         try{
-            bg = new Background("/Assets/bg.jpg", 1);
-            bg.setVector(-0.1, 0);
-            titleColor = new Color(128, 0, 0);
-            titleFont = new Font("Roboto", Font.PLAIN, 28);
+            bg = new Background("/Assets/menubg.jpg", 1);
+            bg.setVector(0, 0);
+            titleColor = new Color(206, 209, 233);
+            titleFont = new Font("Century Gothic", Font.BOLD, 70);
 
-            font = new Font("Arial", Font.PLAIN, 12);
+            font = new Font("Century Gothic", Font.PLAIN, 45);
 
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void init() {
-
-    }
+    public void init() {}
 
     public void update() {
         bg.update();
@@ -43,17 +41,17 @@ public class MenuState extends GameState {
         bg.draw(g);
         g.setColor(titleColor);
         g.setFont(titleFont);
-        g.drawString("Dungeon Game", 80, 70); // make function that centers string
+        g.drawString("Dungeon Game", 230, 260); // make function that centers string
 
         // menu options
         g.setFont(font);
         for (int i = 0; i < buttons.length; i++){
             if (i == currentChoice) {
-                g.setColor(Color.BLACK);
+                g.setColor(Color.WHITE);
             } else {
                 g.setColor(Color.RED);
             }
-            g.drawString(buttons[i],145,140+i*15);
+            g.drawString(buttons[i],270,340+i*60);
         }
     }
 

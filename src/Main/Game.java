@@ -6,8 +6,9 @@ public class Game extends JFrame {
     Game () {
         // JFrame initialization
         setTitle("Dungeon Game");
-        setSize(640, 480);
+        setSize(1024, 768);
         setLocationRelativeTo(null);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 

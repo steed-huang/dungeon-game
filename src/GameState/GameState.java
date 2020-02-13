@@ -1,6 +1,6 @@
 package GameState;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public abstract class GameState {
     protected GameStateManager gsm;

@@ -1,4 +1,4 @@
 package Entity;
 
-public class Boss {
+public class Boss extends Enemy {
 }

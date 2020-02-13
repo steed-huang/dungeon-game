@@ -1,4 +1,5 @@
 package Entity;
 
-public class Projectile {
+public class Projectile extends Entity {
+    public void draw() {}
 }
