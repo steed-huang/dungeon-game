@@ -1,11 +1,10 @@
 package World.Rooms;
 
-import World.LayoutLoader;
 import World.Room;
 
 public class NormalRoom extends Room {
-    public NormalRoom(){
-        this.layout = LayoutLoader.getLayout(0);
+    public NormalRoom(int layout_type){
+        super(layout_type);
     }
 
     public void generateEnemies() {}
