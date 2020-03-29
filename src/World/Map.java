@@ -3,23 +3,19 @@ package World;
 import Main.RandomGenerator;
 import World.Rooms.NormalRoom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Map {
-    private static final int SIZE = 8; // width and height
+    private static final int SIZE = 15; // width and height
     private static int[][] base_layout = new int[SIZE][SIZE]; // locations of specific rooms
     private static Room[][] layout = new Room[SIZE][SIZE]; // specifies room layout type
 
-    // places a boss room in top two rows and spawn in bottom two
-    // generates 2 randomly placed shop room and n normal rooms
-    // connects the boss, spawn, and 3 randomly generated rooms
-    // determines room layout depending on how many other rooms a room leads to
-    // 0 - nothing, 1 - normal, 2 - spawn, 3 - shop, 4 - boss
 
-    // generates map
+    // 0 - nothing, 1 - normal, 2 - spawn
     public void generateMap() {
-        placeSpawn_Boss();
-        placeRandomRooms(3);
-        connectRooms();
-        specifyLayouts();
+        generateRooms();
+        specifyLayout();
     }
 
     // output base layout into console
@@ -42,26 +38,45 @@ public class Map {
         }
     }
 
-    private void placeSpawn_Boss(){
-        base_layout[RandomGenerator.getRandom(SIZE-2, SIZE-1)][RandomGenerator.getRandom(0, SIZE-1)] = 2; // spawn
-        base_layout[RandomGenerator.getRandom(0, 1)][RandomGenerator.getRandom(0, SIZE-1)] = 4; // boss
+    // generates dungeon structure
+    private void generateRooms(){
+        // set spawn point in the middle
+        int x = SIZE / 2;
+        int y = SIZE / 2;
+
+        // call two paths of dungeon gen
+        traverse(x, y, 20);
+        traverse(x, y, 20);
+        base_layout[y][x] = 2; // set spawn
     }
 
-    private void placeRandomRooms(int n){
-        int x,y;
-        int num = n;
-        while (num >= -1){
-            x = RandomGenerator.getRandom(0, SIZE-1);
-            y = RandomGenerator.getRandom(0, SIZE-1);
-            if (base_layout[x][y] == 0){
-                if(num <= 0) base_layout[x][y] = 3;
-                else base_layout[x][y] = 1;
-                num--;
-            }
+    // recursive dungeon generation
+    private void traverse(int x, int y, int movesLeft){
+        // possible moves
+        boolean up = y-1 >= 0;
+        boolean down = y+1 < SIZE;
+        boolean left = x-1 >= 0;
+        boolean right = x+1 < SIZE;
+
+        // add possible to list
+        List<String> moves = new ArrayList<>();
+        if (up) moves.add("up");
+        if (down) moves.add("down");
+        if (left) moves.add("left");
+        if (right) moves.add("right");
+
+        base_layout[y][x] = 1;
+        if (movesLeft <= 0) return; // base case
+
+        int rng = RandomGenerator.getRandom(0, moves.size()-1);
+        switch (moves.get(rng)) {
+            case "up": traverse(x,y-1,movesLeft-1); return;
+            case "down": traverse(x,y+1,movesLeft-1); return;
+            case "left": traverse(x-1,y,movesLeft-1); return;
+            case "right": traverse(x+1,y,movesLeft-1); return;
+            default: System.out.println("something went wrong");
         }
     }
 
-    private void connectRooms(){}
-
-    private void specifyLayouts(){}
+    private void specifyLayout(){}
 }
