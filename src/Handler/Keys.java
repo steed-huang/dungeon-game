@@ -6,8 +6,8 @@ public class Keys {
 
     public static final int NUM_KEYS = 7;
 
-    public static boolean keyState[] = new boolean[NUM_KEYS];
-    public static boolean prevKeyState[] = new boolean[NUM_KEYS];
+    public static boolean[] keyState = new boolean[NUM_KEYS];
+    public static boolean[] prevKeyState = new boolean[NUM_KEYS];
 
     public static int W = 0;
     public static int A = 1;
@@ -27,13 +27,9 @@ public class Keys {
         else if(i == KeyEvent.VK_ESCAPE) keyState[ESCAPE] = b;
     }
 
-    public static void update() {
-        for(int i = 0; i < NUM_KEYS; i++) {
-            prevKeyState[i] = keyState[i];
-        }
-    }
+    public static void update() { System.arraycopy(keyState, 0, prevKeyState, 0, NUM_KEYS); }
 
-    public static boolean isPressed(int i) {
-        return keyState[i] && !prevKeyState[i];
-    }
+    public static boolean isPressed(int i) { return keyState[i] && !prevKeyState[i]; }
+
+    public static boolean isHeld(int i) {return keyState[i]; }
 }

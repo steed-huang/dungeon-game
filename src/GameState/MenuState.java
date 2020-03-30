@@ -56,17 +56,14 @@ public class MenuState extends GameState {
     }
 
     private void select() {
-        if (currentChoice == 0) {
-            // play
+        if (currentChoice == 0) { // play
+            gsm.setState(GameStateManager.LEVEL);
         }
-        if (currentChoice == 1) {
-            // options
+        if (currentChoice == 1) { // options
         }
-        if (currentChoice == 2) {
-            // tutorial
+        if (currentChoice == 2) { // tutorial
         }
-        if (currentChoice == 3) {
-            // quit
+        if (currentChoice == 3) { // quit
             System.exit(0);
         }
     }

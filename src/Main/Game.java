@@ -1,6 +1,5 @@
 package Main;
 
-import World.Map;
 
 import javax.swing.JFrame;
 
@@ -17,9 +16,5 @@ public class Game extends JFrame {
     public void run() {
         this.setContentPane(new GamePanel());
         this.setVisible(true);
-
-        Map levelOne = new Map();
-        levelOne.generateMap();
-        levelOne.printBaseLayout();
     }
 }

@@ -1,23 +1,25 @@
 package Entity;
 
+import java.awt.image.BufferedImage;
+
 public abstract class Entity {
+    // sprite
+    protected BufferedImage sprite;
+
     // positioning and speed
     protected double x;
     protected double y;
-    protected double dx;
-    protected double dy;
-
     protected int width;
     protected int height;
+
+    protected boolean left;
+    protected boolean right;
+    protected boolean up;
+    protected boolean down;
 
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
-    }
-
-    public void setVector(double dx, double dy) {
-        this.dx = dx;
-        this.dy = dy;
     }
 
     public int x_pos() { return (int)x; }
@@ -25,5 +27,16 @@ public abstract class Entity {
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 
-    public abstract void draw();
+    public void setLeft(boolean b) { left = b; }
+    public void setRight(boolean b) { right = b; }
+    public void setUp(boolean b) { up = b; }
+    public void setDown(boolean b) { down = b; }
+
+    public boolean onScreen(){
+        return true;
+    }
+
+    public void draw(java.awt.Graphics2D g){
+        g.drawImage(sprite, (int)(x - width/2), (int)(y - height/2), null);
+    }
 }

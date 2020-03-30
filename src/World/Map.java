@@ -20,22 +20,29 @@ public class Map {
 
     // output base layout into console
     public void printBaseLayout() {
+        System.out.println("Base Layout: ");
+        System.out.println("- - - - - - - - - - - - - - -");
         for(int i = 0; i < SIZE; i++) {
             for(int j = 0; j < SIZE; j++) {
                 System.out.print(base_layout[i][j] + " ");
             }
             System.out.println();
         }
+        System.out.println("- - - - - - - - - - - - - - -\n");
     }
 
     // output layout into console
     public void printLayout(){
+        System.out.println("Layout: ");
+        System.out.println("- - - - - - - - - - - - - - -");
         for(int i = 0; i < SIZE; i++) {
             for(int j = 0; j < SIZE; j++) {
-                System.out.print(layout[i][j] + " ");
+                if (layout[i][j] == null) System.out.print("  ");
+                else System.out.print(layout[i][j].getLayoutType()+ " ");
             }
             System.out.println();
         }
+        System.out.println("- - - - - - - - - - - - - - -\n");
     }
 
     // generates dungeon structure
@@ -78,5 +85,11 @@ public class Map {
         }
     }
 
-    private void specifyLayout(){}
+    private void specifyLayout(){
+        for(int i = 0; i < SIZE; i++) {
+            for(int j = 0; j < SIZE; j++) {
+                if(base_layout[i][j] != 0) layout[i][j] = new NormalRoom(0); // temporarily set all rooms to be square normal
+            }
+        }
+    }
 }
