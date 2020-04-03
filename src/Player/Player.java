@@ -5,6 +5,7 @@ import Entity.Entity;
 import java.awt.*;
 import java.util.ArrayList;
 import Entity.Projectile;
+import Entity.CollisionBox;
 
 import javax.imageio.ImageIO;
 
@@ -40,31 +41,36 @@ public class Player extends Entity {
         width = 50;
         height = 50;
 
+        cb = new CollisionBox(width, height, room_x, room_y);
+
         health = 100;
         maxHealth = 100;
         alive = true;
         speed = 5;
     }
 
+
     public int getHealth(){ return health; }
     public int getMaxHealth(){ return maxHealth; }
 
     public void setFiring(){ firing = true; }
 
-    public void update(){
-        getNextPosition();
-        checkCollision();
+    public void update(ArrayList<CollisionBox> cbs){
+        cb.setPosition(room_x, room_y);
+        getNextPosition(cbs);
         setRoomPosition(room_x, room_y);
     }
 
-    private void getNextPosition() {
+    private void getNextPosition(ArrayList<CollisionBox> cbs) {
+        for (CollisionBox cb : cbs){
+            if (this.cb.collidesWith(cb)){ System.out.println(1); }
+        }
         if (left) room_x -= speed;
         if (right) room_x += speed;
         if (up) room_y -= speed;
         if (down) room_y += speed;
     }
 
-    private void checkCollision() {}
-
-    public void draw(Graphics2D g) { super.draw(g); }
+    public void draw(Graphics2D g) { super.draw(g);
+    }
 }

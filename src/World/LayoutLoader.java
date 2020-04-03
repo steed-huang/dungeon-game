@@ -37,7 +37,7 @@ public class LayoutLoader {
                 String[] str = line.split(" ");
                 int[] ints = new int[width];
                 for (int j = 0; j < width; j++){
-                    ints[j] = Integer.parseInt(str[i]);
+                    ints[j] = Integer.parseInt(str[j]);
                 }
 
                 grid[i] = ints; // storing to grid

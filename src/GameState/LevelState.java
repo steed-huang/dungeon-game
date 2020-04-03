@@ -1,5 +1,6 @@
 package GameState;
 
+import Entity.CollisionBox;
 import Handler.Keys;
 import Images.Background;
 import Player.Player;
@@ -7,6 +8,7 @@ import World.Map;
 import World.Room;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class LevelState extends GameState {
 
@@ -14,6 +16,8 @@ public class LevelState extends GameState {
     private Map level;
     private Room cur_room;
     private Player player;
+
+    private ArrayList<CollisionBox> cbs = new ArrayList<>();
 
     public LevelState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -30,16 +34,22 @@ public class LevelState extends GameState {
         player = new Player(level.getSpawnRow(), level.getSpawnCol());
 
         cur_room = level.getRoom(player.map_row, player.map_col);
+        cbs.addAll(cur_room.getCBS());
     }
 
     public void update() {
-        player.update();
+        player.update(cbs);
         handleInput();
     }
 
     public void draw(Graphics2D g) {
+        int x = player.x_r_pos();
+        int y = player.y_r_pos();
         bg.draw(g);
-        cur_room.draw(g, player.x_r_pos(), player.y_r_pos());
+        cur_room.draw(g, x, y);
+        for (CollisionBox cb : cbs){
+            cb.draw(g, x, y);
+        }
         player.draw(g);
     }
 

@@ -6,6 +6,9 @@ public abstract class Entity {
     // sprite
     protected BufferedImage sprite;
 
+    // collision
+    protected CollisionBox cb;
+
     // positioning and speed
     protected double x;
     protected double y;
@@ -28,6 +31,8 @@ public abstract class Entity {
         this.room_x = x;
         this.room_y = y;
     }
+
+    public CollisionBox getCB() { return cb; }
 
     public int x_pos() { return (int)x; }
     public int y_pos() { return (int)y; }
