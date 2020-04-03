@@ -9,6 +9,8 @@ public abstract class Entity {
     // positioning and speed
     protected double x;
     protected double y;
+    protected double room_x;
+    protected double room_y;
     protected int width;
     protected int height;
 
@@ -22,8 +24,15 @@ public abstract class Entity {
         this.y = y;
     }
 
+    public void setRoomPosition(double x, double y) {
+        this.room_x = x;
+        this.room_y = y;
+    }
+
     public int x_pos() { return (int)x; }
     public int y_pos() { return (int)y; }
+    public int x_r_pos() { return (int)room_x; }
+    public int y_r_pos() { return (int)room_y; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 

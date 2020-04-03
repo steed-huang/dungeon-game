@@ -9,6 +9,7 @@ public class Game extends JFrame {
         setTitle("Dungeon Game");
         setSize(1024, 768);
         setLocationRelativeTo(null);
+        setUndecorated(true); // wont be proper size without
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

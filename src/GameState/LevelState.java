@@ -4,6 +4,7 @@ import Handler.Keys;
 import Images.Background;
 import Player.Player;
 import World.Map;
+import World.Room;
 
 import java.awt.*;
 
@@ -11,6 +12,7 @@ public class LevelState extends GameState {
 
     private Background bg;
     private Map level;
+    private Room cur_room;
     private Player player;
 
     public LevelState(GameStateManager gsm) {
@@ -18,14 +20,16 @@ public class LevelState extends GameState {
     }
 
     public void init() {
-        bg = new Background("/Assets/menubg.jpg", 0);
+        bg = new Background("/Assets/black.jpg", 0);
 
         level = new Map();
         level.generateMap();
         level.printBaseLayout();
         level.printLayout();
 
-        player = new Player();
+        player = new Player(level.getSpawnRow(), level.getSpawnCol());
+
+        cur_room = level.getRoom(player.map_row, player.map_col);
     }
 
     public void update() {
@@ -35,6 +39,7 @@ public class LevelState extends GameState {
 
     public void draw(Graphics2D g) {
         bg.draw(g);
+        cur_room.draw(g, player.x_r_pos(), player.y_r_pos());
         player.draw(g);
     }
 

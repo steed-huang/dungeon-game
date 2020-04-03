@@ -1,5 +1,7 @@
 package World;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class LayoutLoader {
@@ -13,12 +15,15 @@ public class LayoutLoader {
     private static String[] layout_files = {"square.txt", "ver_rec.txt", "hor_rec.txt", "t_shaped.txt", "hole.txt",
                                             "left_up.txt", "right_up.txt", "left_down.txt", "right_down.txt"};
 
+    private static String[] layout_image_files = {"square.png", "ver_rec.png", "hor_rec.png", "t_shaped.png", "hole.png",
+                                            "left_up.png", "right_up.png", "left_down.png", "right_down.png"};
+
     public static Layout getLayout(int layout_type){
         if (layouts[layout_type] == null) loadLayout(layout_type); // if not already loaded, load it
         return layouts[layout_type];
     }
 
-    // loads specific room layouts from text file
+    // loads specific room layouts from file
     public static void loadLayout(int layout_type){
         try {
             br = new BufferedReader(new FileReader("src/World/Layouts/"+layout_files[layout_type]));
@@ -38,8 +43,11 @@ public class LayoutLoader {
                 grid[i] = ints; // storing to grid
             }
             br.close();
-            layouts[layout_type] = new Layout(grid); // puts new layout in array
 
+            // get image
+            BufferedImage sprite = ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/"+layout_image_files[layout_type]));
+
+            layouts[layout_type] = new Layout(grid, sprite); // puts new layout in array
         } catch (IOException e) {
             e.printStackTrace();
         }
