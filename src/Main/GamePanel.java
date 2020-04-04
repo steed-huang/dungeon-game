@@ -1,13 +1,14 @@
 package Main;
 
 import Handler.Keys;
+import Handler.Mouse;
 import GameState.GameStateManager;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener {
     // dimensions
     public static final int WIDTH = 1024;
     public static final int HEIGHT = 768;
@@ -38,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if(thread == null) {
             thread = new Thread(this);
             addKeyListener(this);
+            addMouseListener(this);
             thread.start();
         }
     }
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void update() {
         gsm.update();
         Keys.update();
+        Mouse.update();
     }
 
     private void draw() {
@@ -92,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g2.dispose();
     }
 
+    // keyboard
     public void keyTyped(KeyEvent key) {}
 
     public void keyPressed(KeyEvent key) {
@@ -101,4 +105,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void keyReleased(KeyEvent key) {
         Keys.keySet(key.getKeyCode(), false);
     }
+
+    // mouse
+    public void mouseClicked(MouseEvent e) {}
+
+    public void mousePressed(MouseEvent e) { Mouse.set(true, e.getX(), e.getY());}
+
+    public void mouseReleased(MouseEvent e) { Mouse.set(false, e.getX(), e.getY()); }
+
+    public void mouseEntered(MouseEvent e) {}
+
+    public void mouseExited(MouseEvent e) {}
 }

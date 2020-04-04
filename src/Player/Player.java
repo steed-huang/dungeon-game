@@ -16,8 +16,8 @@ public class Player extends Entity {
     public int map_col;
 
     // stats
-    private int health;
-    private int maxHealth;
+    private double health;
+    private double maxHealth;
     private boolean alive;
     private double speed;
 
@@ -27,7 +27,7 @@ public class Player extends Entity {
 
     public Player(int r, int c){
         try {
-                sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/player.png"));
+            sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/player.png"));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -50,8 +50,8 @@ public class Player extends Entity {
     }
 
 
-    public int getHealth(){ return health; }
-    public int getMaxHealth(){ return maxHealth; }
+    public double health(){ return health; }
+    public double maxHealth(){ return maxHealth; }
 
     public void setFiring(){ firing = true; }
 

@@ -2,8 +2,10 @@ package GameState;
 
 import Entity.CollisionBox;
 import Handler.Keys;
+import Handler.Mouse;
 import Images.Background;
 import Player.Player;
+import Player.HUD;
 import World.Map;
 import World.Room;
 
@@ -17,6 +19,7 @@ public class LevelState extends GameState {
     private Map level;
     private Room cur_room;
     private Player player;
+    private HUD hud;
 
     private ArrayList<CollisionBox> cbs = new ArrayList<>();
 
@@ -34,6 +37,8 @@ public class LevelState extends GameState {
         level.printLayout();
 
         player = new Player(level.getSpawnRow(), level.getSpawnCol());
+
+        hud = new HUD(player);
 
         cur_room = level.getRoom(player.map_row, player.map_col);
 
@@ -72,7 +77,7 @@ public class LevelState extends GameState {
     public void updateCBS(){
         cbs.clear();
         cbs.addAll(cur_room.getCBS());
-        System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
+        //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 
     public void draw(Graphics2D g) {
@@ -80,11 +85,11 @@ public class LevelState extends GameState {
         int y = player.y_r_pos();
         bg.draw(g);
         cur_room.draw(g, x, y);
-
-        // for (CollisionBox cb : cbs){ cb.draw(g, x, y); }
-
         player.draw(g);
         fog.draw(g);
+        hud.draw(g);
+
+        // for (CollisionBox cb : cbs){ cb.draw(g, x, y); }
     }
 
     public void handleInput() {
