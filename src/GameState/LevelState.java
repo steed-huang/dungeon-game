@@ -1,6 +1,7 @@
 package GameState;
 
 import Entity.CollisionBox;
+import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
@@ -11,6 +12,7 @@ import World.Room;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LevelState extends GameState {
 
@@ -22,6 +24,7 @@ public class LevelState extends GameState {
     private HUD hud;
 
     private ArrayList<CollisionBox> cbs = new ArrayList<>();
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
 
     public LevelState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -46,7 +49,13 @@ public class LevelState extends GameState {
     }
 
     public void update() {
-        player.update(cbs);
+        player.update(cbs, projectiles);
+        // will throw ConcurrentModificationException if enhanced for is used
+        for (Iterator<Projectile> i = projectiles.iterator(); i.hasNext(); ) {
+            Projectile p = i.next();
+            p.update(cbs, projectiles);
+            if (p.getRemove()) i.remove();
+        }
         handleInput();
         doorCheck();
     }
@@ -77,6 +86,8 @@ public class LevelState extends GameState {
     public void updateCBS(){
         cbs.clear();
         cbs.addAll(cur_room.getCBS());
+
+        projectiles.clear();
         //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 
@@ -85,6 +96,10 @@ public class LevelState extends GameState {
         int y = player.y_r_pos();
         bg.draw(g);
         cur_room.draw(g, x, y);
+        for (Iterator<Projectile> i = projectiles.iterator(); i.hasNext(); ) { // need to add only draw if on screen
+            Projectile p = i.next();
+            p.draw(g, x, y);
+        }
         player.draw(g);
         fog.draw(g);
         hud.draw(g);
@@ -93,6 +108,10 @@ public class LevelState extends GameState {
     }
 
     public void handleInput() {
+        // firing
+        if (Mouse.isHeld()) player.setFiring(true); else player.setFiring(false);
+
+        // movement
         if (Keys.isHeld(Keys.W)) player.setUp(true); else player.setUp(false);
         if (Keys.isHeld(Keys.A)) player.setLeft(true); else player.setLeft(false);
         if (Keys.isHeld(Keys.S)) player.setDown(true); else player.setDown(false);

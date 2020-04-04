@@ -6,11 +6,15 @@ public class Mouse {
     public static boolean mouseState;
     public static boolean prevMouseState;
 
-    public static int mouse_x;
-    public static int mouse_y;
+    private static int mouse_x;
+    private static int mouse_y;
 
     public static void set(boolean b, int x, int y) {
         mouseState = b;
+        updatePos(x, y);
+    }
+
+    public static void updatePos(int x, int y) {
         mouse_x = x;
         mouse_y = y;
     }

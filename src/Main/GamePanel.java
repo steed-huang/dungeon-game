@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener {
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener {
     // dimensions
     public static final int WIDTH = 1024;
     public static final int HEIGHT = 768;
@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
             thread = new Thread(this);
             addKeyListener(this);
             addMouseListener(this);
+            addMouseMotionListener(this);
             thread.start();
         }
     }
@@ -116,4 +117,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
     public void mouseEntered(MouseEvent e) {}
 
     public void mouseExited(MouseEvent e) {}
+
+    public void mouseDragged(MouseEvent e) { Mouse.updatePos(e.getX(), e.getY()); }
+
+    public void mouseMoved(MouseEvent e) {}
 }

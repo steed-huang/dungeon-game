@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import Entity.Projectile;
 import Entity.CollisionBox;
+import Handler.Mouse;
 
 import javax.imageio.ImageIO;
 
@@ -23,7 +24,8 @@ public class Player extends Entity {
 
     // shots
     private boolean firing;
-    private ArrayList<Projectile> projectiles;
+    private long last_shot;
+    private long shot_delay;
 
     public Player(int r, int c){
         try {
@@ -47,18 +49,22 @@ public class Player extends Entity {
         maxHealth = 100;
         alive = true;
         speed = 5;
-    }
 
+        firing = false;
+        last_shot = 0;
+        shot_delay = 500;
+    }
 
     public double health(){ return health; }
     public double maxHealth(){ return maxHealth; }
 
-    public void setFiring(){ firing = true; }
+    public void setFiring(boolean b ){ firing = b;}
 
-    public void update(ArrayList<CollisionBox> cbs){
+    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles){
         getNextPosition(cbs);
         cb.setPosition(room_x, room_y);
         setRoomPosition(room_x, room_y);
+        shoot(projectiles);
     }
 
     private void getNextPosition(ArrayList<CollisionBox> cbs) {
@@ -79,6 +85,23 @@ public class Player extends Entity {
         if (right && !right_wall) room_x += speed;
         if (up && !up_wall) room_y -= speed;
         if (down && !down_wall) room_y += speed;
+    }
+
+    public void shoot(ArrayList<Projectile> projectiles) {
+        if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
+            double[] vec = getVector();
+            projectiles.add(new Projectile("player_proj", room_x, room_y, vec[0], vec[1], 10, 10, 10));
+            last_shot = System.currentTimeMillis();
+        }
+    }
+
+    public double[] getVector() {
+        // set center to 0,0
+        double x = Mouse.getMouse_x() - 512;
+        double y = Mouse.getMouse_y() - 384;
+        double theta = Math.atan2(y, x);
+
+        return new double[]{Math.cos(theta), Math.sin(theta)}; // dx, dy components
     }
 
     public void draw(Graphics2D g) { super.draw(g); }

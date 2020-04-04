@@ -53,4 +53,7 @@ public abstract class Entity {
     public void draw(java.awt.Graphics2D g){
         g.drawImage(sprite, (int)(x - width/2), (int)(y - height/2), null);
     }
+    public void draw(java.awt.Graphics2D g, int px, int py, int x, int y) {
+        g.drawImage(sprite,512-px+(x - width/2),384-py+(y - height/2), null);
+    }
 }
