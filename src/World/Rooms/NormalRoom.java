@@ -8,6 +8,7 @@ public class NormalRoom extends Room {
     }
 
     public void generateEnemies() {}
+
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y);
     }

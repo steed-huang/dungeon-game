@@ -88,16 +88,19 @@ public class Map {
     }
 
     private void specifyLayout(){
-        layout[spawn_row][spawn_col] = new NormalRoom(0);
         for(int i = 0; i < SIZE; i++) {
             for(int j = 0; j < SIZE; j++) {
-                if(base_layout[i][j] != 0 && base_layout[i][j] != 2) {
+                if(base_layout[i][j] != 0) {
                     boolean up = false, down = false, left = false, right = false; // checking connected rooms
                     if (i-1 >= 0 && base_layout[i-1][j] != 0) up = true;
                     if (i+1 < SIZE && base_layout[i+1][j] != 0) down = true;
                     if (j-1 >= 0 && base_layout[i][j-1] != 0) left = true;
                     if (j+1 < SIZE && base_layout[i][j+1] != 0) right = true;
-                    randomLayout(i, j, up, down, left, right);
+
+                    if (i == spawn_row && j == spawn_col) layout[i][j] = new NormalRoom(0); // spawn room always cube
+                    else randomLayout(i, j, up, down, left, right);
+
+                    layout[i][j].setDoors(up, down, left, right);
                 }
             }
         }

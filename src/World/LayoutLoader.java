@@ -22,6 +22,8 @@ public class LayoutLoader {
     private static String[] layout_image_files = {"square.png", "hole.png", "cross.png", "rec_ver.png", "rec_hor.png",
                                                     "left_up.png", "right_up.png", "left_down.png", "right_down.png",
                                                     "t_up.png", "t_down.png", "t_left.png", "t_right.png"};
+    private static BufferedImage door_hor;
+    private static BufferedImage door_ver;
 
     public static Layout getLayout(int layout_type){
         if (layouts[layout_type] == null) loadLayout(layout_type); // if not already loaded, load it
@@ -31,6 +33,9 @@ public class LayoutLoader {
     // loads specific room layouts from file
     public static void loadLayout(int layout_type){
         try {
+            if (door_hor == null) door_hor = ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/door_hor.png"));
+            if (door_ver == null) door_ver =  ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/door_ver.png"));
+
             br = new BufferedReader(new FileReader("src/World/Layouts/"+layout_files[layout_type]));
             int height = Integer.parseInt(br.readLine());
             int width = Integer.parseInt(br.readLine());
@@ -52,7 +57,7 @@ public class LayoutLoader {
             // get image
             BufferedImage sprite = ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/"+layout_image_files[layout_type]));
 
-            layouts[layout_type] = new Layout(grid, sprite); // puts new layout in array
+            layouts[layout_type] = new Layout(grid, sprite, door_hor, door_ver); // puts new layout in array
         } catch (IOException e) {
             e.printStackTrace();
         }
