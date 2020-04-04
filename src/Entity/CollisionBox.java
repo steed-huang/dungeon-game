@@ -31,7 +31,7 @@ public class CollisionBox {
     public boolean collidesWith(CollisionBox cb) {
         double[] c1 = this.getLimits();
         double[] c2 = cb.getLimits();
-        return !(c2[0] > c1[2] || c2[2] < c1[0] || c2[1] > c1[3] || c2[3] < c1[1]);
+        return !(c2[0] >= c1[2] || c2[2] <= c1[0] || c2[1] >= c1[3] || c2[3] <= c1[1]);
     }
 
     // for walls
@@ -46,7 +46,7 @@ public class CollisionBox {
     public boolean collidesWith(CollisionBox cb, double x, double y) {
         double[] c1 = this.getLimits(x, y);
         double[] c2 = cb.getLimits();
-        return !(c2[0] > c1[2] || c2[2] < c1[0] || c2[1] > c1[3] || c2[3] < c1[1]);
+        return !(c2[0] >= c1[2] || c2[2] <= c1[0] || c2[1] >= c1[3] || c2[3] <= c1[1]);
     }
 
     public void draw(java.awt.Graphics2D g, int x, int y){

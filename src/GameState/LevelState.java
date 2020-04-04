@@ -34,6 +34,7 @@ public class LevelState extends GameState {
         player = new Player(level.getSpawnRow(), level.getSpawnCol());
 
         cur_room = level.getRoom(player.map_row, player.map_col);
+
         cbs.addAll(cur_room.getCBS());
     }
 
@@ -47,9 +48,9 @@ public class LevelState extends GameState {
         int y = player.y_r_pos();
         bg.draw(g);
         cur_room.draw(g, x, y);
-        for (CollisionBox cb : cbs){
-            cb.draw(g, x, y);
-        }
+
+        // for (CollisionBox cb : cbs){ cb.draw(g, x, y); }
+
         player.draw(g);
     }
 

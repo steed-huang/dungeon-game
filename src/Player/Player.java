@@ -27,7 +27,7 @@ public class Player extends Entity {
 
     public Player(int r, int c){
         try {
-                sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/player.jpg"));
+                sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/player.png"));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -56,19 +56,26 @@ public class Player extends Entity {
     public void setFiring(){ firing = true; }
 
     public void update(ArrayList<CollisionBox> cbs){
-        cb.setPosition(room_x, room_y);
         getNextPosition(cbs);
+        cb.setPosition(room_x, room_y);
         setRoomPosition(room_x, room_y);
     }
 
     private void getNextPosition(ArrayList<CollisionBox> cbs) {
+        boolean left_wall = false;
+        boolean right_wall = false;
+        boolean up_wall = false;
+        boolean down_wall = false;
         for (CollisionBox cb : cbs){
-            if (this.cb.collidesWith(cb)){ System.out.println(1); }
+            if (this.cb.collidesWith(cb, room_x - speed, room_y) && !left_wall) left_wall = true;
+            if (this.cb.collidesWith(cb, room_x + speed, room_y) && !right_wall) right_wall = true;
+            if (this.cb.collidesWith(cb, room_x, room_y - speed) && !up_wall) up_wall = true;
+            if (this.cb.collidesWith(cb, room_x, room_y + speed) && !down_wall) down_wall = true;
         }
-        if (left) room_x -= speed;
-        if (right) room_x += speed;
-        if (up) room_y -= speed;
-        if (down) room_y += speed;
+        if (left && !left_wall) room_x -= speed;
+        if (right && !right_wall) room_x += speed;
+        if (up && !up_wall) room_y -= speed;
+        if (down && !down_wall) room_y += speed;
     }
 
     public void draw(Graphics2D g) { super.draw(g);
