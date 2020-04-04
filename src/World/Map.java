@@ -50,7 +50,7 @@ public class Map {
         }
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - -\n");
     }
-        
+
     // generates dungeon structure
     private void generateRooms(){
         // call two paths of dungeon gen
