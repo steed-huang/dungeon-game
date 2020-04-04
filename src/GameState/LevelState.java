@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class LevelState extends GameState {
 
     private Background bg;
+    private Background fog;
     private Map level;
     private Room cur_room;
     private Player player;
@@ -25,6 +26,7 @@ public class LevelState extends GameState {
 
     public void init() {
         bg = new Background("/Assets/black.jpg", 0);
+        fog = new Background("/Assets/fog.png", 0);
 
         level = new Map();
         level.generateMap();
@@ -52,6 +54,7 @@ public class LevelState extends GameState {
         // for (CollisionBox cb : cbs){ cb.draw(g, x, y); }
 
         player.draw(g);
+        fog.draw(g);
     }
 
     public void handleInput() {

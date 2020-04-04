@@ -9,14 +9,19 @@ public class LayoutLoader {
     private static BufferedReader br;
 
     // Room types
-    private static final int NUM_LAYOUT = 9;
+    private static final int NUM_LAYOUT = 13;
     private static Layout[] layouts = new Layout[NUM_LAYOUT];
 
-    private static String[] layout_files = {"square.txt", "ver_rec.txt", "hor_rec.txt", "t_shaped.txt", "hole.txt",
-                                            "left_up.txt", "right_up.txt", "left_down.txt", "right_down.txt"};
+    // square: 0, hole: 1, cross: 2, rec_ver: 3, rec_hor: 4,
+    // left_up: 5, right_up: 6, left_down: 7, right_down: 8,
+    // t_up: 9, t_down: 10, t_left: 11, t_right: 12
+    private static String[] layout_files = {"square.txt", "hole.txt", "cross.txt", "rec_ver.txt", "rec_hor.txt",
+                                            "left_up.txt", "right_up.txt", "left_down.txt", "right_down.txt",
+                                            "t_up.txt", "t_down.txt", "t_left.txt", "t_right.txt"};
 
-    private static String[] layout_image_files = {"square.png", "ver_rec.png", "hor_rec.png", "t_shaped.png", "hole.png",
-                                            "left_up.png", "right_up.png", "left_down.png", "right_down.png"};
+    private static String[] layout_image_files = {"square.png", "hole.png", "cross.png", "rec_ver.png", "rec_hor.png",
+                                                    "left_up.png", "right_up.png", "left_down.png", "right_down.png",
+                                                    "t_up.png", "t_down.png", "t_left.png", "t_right.png"};
 
     public static Layout getLayout(int layout_type){
         if (layouts[layout_type] == null) loadLayout(layout_type); // if not already loaded, load it
