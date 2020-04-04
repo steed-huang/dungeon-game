@@ -8,12 +8,17 @@ public class CollisionBox {
     private double width;
     private double height;
 
-    public CollisionBox(double width, double height, double room_x, double room_y){
+    private String type;
+
+    public CollisionBox(String type, double width, double height, double room_x, double room_y){
+        this.type = type;
         this.width = width;
         this.height = height;
         this.r_x = room_x;
         this.r_y = room_y;
     }
+
+    public String getType() { return type; }
 
     public void setPosition(double x, double y) {
         r_x = x;

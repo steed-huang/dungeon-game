@@ -12,17 +12,27 @@ public abstract class Room {
     protected Room(int layout_type){
         this.layout = LayoutLoader.getLayout(layout_type);
         this.layout_type = layout_type;
-
-        // generate collision boxes
-        for (int i = 0; i < layout.grid.length; i++){
-            for (int j = 0; j < layout.grid.length; j++){
-                if (layout.grid[i][j] == 2) cbs.add(new CollisionBox(50, 50, j * 50 + 25, i * 50 + 25));
-            }
-        }
     }
 
     public void setDoors(boolean up, boolean down, boolean left, boolean right){
         doors[0] = up; doors[1] = down; doors[2] = left; doors[3] = right;
+    }
+
+    public void generateWallCB(){
+        String type;
+
+        // generate collision boxes
+        for (int i = 0; i < layout.grid.length; i++){
+            for (int j = 0; j < layout.grid.length; j++){
+                type = "wall";
+                // door cb
+                if ((doors[0] && (i == 0 && j == 14 || i == 0 && j == 15)) || (doors[1] && (i == 29 && j == 14 || i == 29 && j == 15)) || // 4 possible doors
+                    (doors[2] && (i == 14 && j == 0 || i == 15 && j == 0)) || (doors[3] && (i == 14 && j == 29 || i == 15 && j == 29))) type = "door";
+
+                // wall cb
+                if (layout.grid[i][j] == 2) cbs.add(new CollisionBox(type, 50, 50, j * 50 + 25, i * 50 + 25));
+            }
+        }
     }
 
     public ArrayList<CollisionBox> getCBS() { return cbs; }

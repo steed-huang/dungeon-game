@@ -41,7 +41,7 @@ public class Player extends Entity {
         width = 50;
         height = 50;
 
-        cb = new CollisionBox(width, height, room_x, room_y);
+        cb = new CollisionBox("player", width, height, room_x, room_y);
 
         health = 100;
         maxHealth = 100;
@@ -62,15 +62,18 @@ public class Player extends Entity {
     }
 
     private void getNextPosition(ArrayList<CollisionBox> cbs) {
+        // wall collision
         boolean left_wall = false;
         boolean right_wall = false;
         boolean up_wall = false;
         boolean down_wall = false;
         for (CollisionBox cb : cbs){
-            if (this.cb.collidesWith(cb, room_x - speed, room_y) && !left_wall) left_wall = true;
-            if (this.cb.collidesWith(cb, room_x + speed, room_y) && !right_wall) right_wall = true;
-            if (this.cb.collidesWith(cb, room_x, room_y - speed) && !up_wall) up_wall = true;
-            if (this.cb.collidesWith(cb, room_x, room_y + speed) && !down_wall) down_wall = true;
+            if (cb.getType().equals("wall")) {
+                if (this.cb.collidesWith(cb, room_x - speed, room_y) && !left_wall) left_wall = true;
+                if (this.cb.collidesWith(cb, room_x + speed, room_y) && !right_wall) right_wall = true;
+                if (this.cb.collidesWith(cb, room_x, room_y - speed) && !up_wall) up_wall = true;
+                if (this.cb.collidesWith(cb, room_x, room_y + speed) && !down_wall) down_wall = true;
+            }
         }
         if (left && !left_wall) room_x -= speed;
         if (right && !right_wall) room_x += speed;
@@ -78,6 +81,5 @@ public class Player extends Entity {
         if (down && !down_wall) room_y += speed;
     }
 
-    public void draw(Graphics2D g) { super.draw(g);
-    }
+    public void draw(Graphics2D g) { super.draw(g); }
 }

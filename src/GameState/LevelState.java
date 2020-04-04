@@ -37,12 +37,42 @@ public class LevelState extends GameState {
 
         cur_room = level.getRoom(player.map_row, player.map_col);
 
-        cbs.addAll(cur_room.getCBS());
+        updateCBS();
     }
 
     public void update() {
         player.update(cbs);
         handleInput();
+        doorCheck();
+    }
+
+    public void doorCheck() {
+        if (player.y_r_pos() < 25){ // up
+            player.setRoomPosition(player.x_r_pos(), 1450);
+            cur_room = level.getRoom(player.map_row-=1, player.map_col);
+            updateCBS();
+        }
+        else if (player.y_r_pos() > 1475){ // down
+            player.setRoomPosition(player.x_r_pos(), 50);
+            cur_room = level.getRoom(player.map_row+=1, player.map_col);
+            updateCBS();
+        }
+        else if (player.x_r_pos() < 25){ // left
+            player.setRoomPosition(1450, player.y_r_pos());
+            cur_room = level.getRoom(player.map_row, player.map_col-=1);
+            updateCBS();
+        }
+        else if (player.x_r_pos() > 1475){ // right
+            player.setRoomPosition(50, player.y_r_pos());
+            cur_room = level.getRoom(player.map_row, player.map_col+=1);
+            updateCBS();
+        }
+    }
+
+    public void updateCBS(){
+        cbs.clear();
+        cbs.addAll(cur_room.getCBS());
+        System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 
     public void draw(Graphics2D g) {

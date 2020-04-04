@@ -101,6 +101,7 @@ public class Map {
                     else randomLayout(i, j, up, down, left, right);
 
                     layout[i][j].setDoors(up, down, left, right);
+                    layout[i][j].generateWallCB();
                 }
             }
         }
