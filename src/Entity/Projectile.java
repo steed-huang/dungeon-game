@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public class Projectile extends Entity {
 
-    private double dx;
-    private double dy;
     private double speed;
     private boolean remove;
 

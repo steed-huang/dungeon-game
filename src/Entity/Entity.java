@@ -14,6 +14,8 @@ public abstract class Entity {
     protected double y;
     protected double room_x;
     protected double room_y;
+    protected double dx;
+    protected double dy;
     protected int width;
     protected int height;
 

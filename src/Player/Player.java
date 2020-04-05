@@ -82,10 +82,21 @@ public class Player extends Entity {
                 if (this.cb.collidesWith(cb, room_x, room_y + speed) && !down_wall) down_wall = true;
             }
         }
-        if (left && !left_wall) room_x -= speed;
-        if (right && !right_wall) room_x += speed;
-        if (up && !up_wall) room_y -= speed;
-        if (down && !down_wall) room_y += speed;
+
+        dx = 0; dy = 0;
+        if (left && !left_wall) dx = -1;
+        if (right && !right_wall) dx = 1;
+        if (up && !up_wall) dy = -1;
+        if (down && !down_wall) dy = 1;
+
+        // normalize movement vector
+        if (dx != 0 || dy != 0) {
+            double length = Math.sqrt(dx * dx + dy * dy);
+            dx /= length;
+            dy /= length;
+            room_x += dx * speed;
+            room_y += dy * speed;
+        }
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {
