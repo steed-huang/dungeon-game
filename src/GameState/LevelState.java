@@ -1,6 +1,7 @@
 package GameState;
 
 import Entity.CollisionBox;
+import Entity.Enemy;
 import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
@@ -24,6 +25,7 @@ public class LevelState extends GameState {
     private HUD hud;
 
     private ArrayList<CollisionBox> cbs = new ArrayList<>();
+    private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Projectile> projectiles = new ArrayList<>();
 
     public LevelState(GameStateManager gsm) {
@@ -45,7 +47,7 @@ public class LevelState extends GameState {
 
         cur_room = level.getRoom(player.map_row, player.map_col);
 
-        updateCBS();
+        updateRoom();
     }
 
     public void update() {
@@ -56,6 +58,11 @@ public class LevelState extends GameState {
             p.update(cbs, projectiles);
             if (p.getRemove()) i.remove();
         }
+        for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
+            Enemy e = i.next();
+            e.update(cbs, enemies, player);
+            if (!e.getAlive()) i.remove();
+        }
         handleInput();
         doorCheck();
     }
@@ -64,30 +71,32 @@ public class LevelState extends GameState {
         if (player.y_r_pos() < 25){ // up
             player.setRoomPosition(player.x_r_pos(), 1450);
             cur_room = level.getRoom(player.map_row-=1, player.map_col);
-            updateCBS();
+            updateRoom();
         }
         else if (player.y_r_pos() > 1475){ // down
             player.setRoomPosition(player.x_r_pos(), 50);
             cur_room = level.getRoom(player.map_row+=1, player.map_col);
-            updateCBS();
+            updateRoom();
         }
         else if (player.x_r_pos() < 25){ // left
             player.setRoomPosition(1450, player.y_r_pos());
             cur_room = level.getRoom(player.map_row, player.map_col-=1);
-            updateCBS();
+            updateRoom();
         }
         else if (player.x_r_pos() > 1475){ // right
             player.setRoomPosition(50, player.y_r_pos());
             cur_room = level.getRoom(player.map_row, player.map_col+=1);
-            updateCBS();
+            updateRoom();
         }
     }
 
-    public void updateCBS(){
+    public void updateRoom(){
         cbs.clear();
-        cbs.addAll(cur_room.getCBS());
-
+        enemies.clear();
         projectiles.clear();
+
+        enemies.addAll(cur_room.getEnemies());
+        cbs.addAll(cur_room.getCBS());
         //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 
@@ -99,6 +108,10 @@ public class LevelState extends GameState {
         for (Iterator<Projectile> i = projectiles.iterator(); i.hasNext(); ) { // need to add only draw if on screen
             Projectile p = i.next();
             p.draw(g, x, y);
+        }
+        for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
+            Enemy e = i.next();
+            e.draw(g, x, y);
         }
         player.draw(g);
         fog.draw(g);

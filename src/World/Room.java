@@ -1,12 +1,14 @@
 package World;
 
 import Entity.CollisionBox;
+import Entity.Enemy;
 import java.util.ArrayList;
 
 public abstract class Room {
     protected Layout layout; // instance room layout
     protected int layout_type;
-    protected ArrayList<CollisionBox> cbs = new ArrayList<>();
+    protected ArrayList<CollisionBox> cbs = new ArrayList<>(); // list of wall cbs
+    protected ArrayList<Enemy> enemies = new ArrayList<>(); // list of enemies
     protected boolean[] doors = {false, false, false, false};
 
     protected Room(int layout_type){
@@ -35,8 +37,10 @@ public abstract class Room {
         }
     }
 
-    public ArrayList<CollisionBox> getCBS() { return cbs; }
     public abstract void generateEnemies();
+
+    public ArrayList<CollisionBox> getCBS() { return cbs; }
+    public ArrayList<Enemy> getEnemies() { return enemies; }
 
     public int getLayoutType(){ return this.layout_type; }
 

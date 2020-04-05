@@ -46,14 +46,15 @@ public abstract class Entity {
     public void setUp(boolean b) { up = b; }
     public void setDown(boolean b) { down = b; }
 
-    public boolean onScreen(){
-        return true;
+    public boolean onScreen(int px, int py){
+        return (Math.abs(px - room_x) < 512) && (Math.abs(py - room_y) < 384);
     }
 
-    public void draw(java.awt.Graphics2D g){
-        g.drawImage(sprite, (int)(x - width/2), (int)(y - height/2), null);
-    }
+    // for static objects that don't move on screen
+    public void draw(java.awt.Graphics2D g){ g.drawImage(sprite, (int)(x - width/2), (int)(y - height/2), null); }
+
+    // dynamic objects moving across map
     public void draw(java.awt.Graphics2D g, int px, int py, int x, int y) {
-        g.drawImage(sprite,512-px+(x - width/2),384-py+(y - height/2), null);
+        if(onScreen(px, py)) g.drawImage(sprite,512-px+(x - width/2),384-py+(y - height/2), null);
     }
 }

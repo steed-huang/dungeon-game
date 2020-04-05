@@ -18,14 +18,14 @@ public class Player extends Entity {
 
     // stats
     private double health;
-    private double maxHealth;
+    private final double maxHealth;
     private boolean alive;
     private double speed;
 
     // shots
     private boolean firing;
     private long last_shot;
-    private long shot_delay;
+    private final long shot_delay;
 
     public Player(int r, int c){
         try {
@@ -52,7 +52,7 @@ public class Player extends Entity {
 
         firing = false;
         last_shot = 0;
-        shot_delay = 500;
+        shot_delay = 300;
     }
 
     public double health(){ return health; }
@@ -65,6 +65,7 @@ public class Player extends Entity {
         cb.setPosition(room_x, room_y);
         setRoomPosition(room_x, room_y);
         shoot(projectiles);
+        checkAlive();
     }
 
     private void getNextPosition(ArrayList<CollisionBox> cbs) {
@@ -103,6 +104,10 @@ public class Player extends Entity {
 
         return new double[]{Math.cos(theta), Math.sin(theta)}; // dx, dy components
     }
+
+    public void hit(double dmg) { health -= dmg; }
+
+    public void checkAlive() { if (health <= 0) alive = false; }
 
     public void draw(Graphics2D g) { super.draw(g); }
 }

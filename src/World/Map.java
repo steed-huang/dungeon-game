@@ -102,6 +102,7 @@ public class Map {
 
                     layout[i][j].setDoors(up, down, left, right);
                     layout[i][j].generateWallCB();
+                    layout[i][j].generateEnemies();
                 }
             }
         }
