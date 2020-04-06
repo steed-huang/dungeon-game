@@ -36,12 +36,14 @@ public class Projectile extends Entity {
         cb.setPosition(room_x, room_y);
     }
 
-    private void getNextPosition(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles) {
+    private void getNextPosition(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles) { // should add max range to projectiles
         room_x += dx*speed;
         room_y += dy*speed;
 
         for (CollisionBox cb : cbs){
-            if ((cb.getType().equals("wall") || cb.getType().equals("door"))&& this.cb.collidesWith(cb)) remove = true;
+            if ((cb.getType().equals("wall") || cb.getType().equals("door"))&& this.cb.collidesWith(cb)){
+                remove = true; break;
+            }
         }
     }
 
@@ -51,6 +53,7 @@ public class Projectile extends Entity {
                 if ((cb.collidesWith(e.getCB()))) {
                     e.hit(dmg);
                     remove = true;
+                    break;
                 }
             }
         } else { // enemy projectile hitting player

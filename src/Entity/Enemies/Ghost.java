@@ -18,13 +18,13 @@ public class Ghost extends Enemy {
         }
 
         alive = true;
-        health = 30;
-        maxHealth = 30;
-        speed = 3;
+        health = 15;
+        maxHealth = 15;
+        speed = 4;
         touch_dmg = 5;
 
-        width = 60;
-        height = 60;
+        width = 75;
+        height = 75;
 
         cb = new CollisionBox("ghost", width, height, room_x, room_y);
     }

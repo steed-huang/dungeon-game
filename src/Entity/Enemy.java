@@ -1,5 +1,6 @@
 package Entity;
 
+import Main.RandomGenerator;
 import Player.Player;
 import java.util.ArrayList;
 
@@ -67,13 +68,18 @@ public abstract class Enemy extends Entity {
     }
 
     public void move(Player player) { // default movement | add a* later if I add more obstacles
-        dx = player.x_r_pos() - room_x;
-        dy = player.y_r_pos() - room_y;
+        dx = 0; dy = 0;
+        double px = player.x_r_pos();
+        double py = player.y_r_pos();
+        if (Math.sqrt((py - room_y) * (py - room_y) + (px - room_x) * (px - room_x)) < 400) { // within 400px
+            dx = px - room_x;
+            dy = py - room_y;
 
-        if (dx != 0 || dy != 0) {
-            double length = Math.sqrt(dx * dx + dy * dy);
-            dx /= length;
-            dy /= length;
+            if (dx != 0 || dy != 0) {
+                double length = Math.sqrt(dx * dx + dy * dy);
+                dx /= length; dx += RandomGenerator.getRandom(-0.2, 0.2); // add random variation
+                dy /= length; dy += RandomGenerator.getRandom(-0.2, 0.2);
+            }
         }
     }
 
