@@ -55,7 +55,7 @@ public class LevelState extends GameState {
         // will throw ConcurrentModificationException if enhanced for is used
         for (Iterator<Projectile> i = projectiles.iterator(); i.hasNext(); ) {
             Projectile p = i.next();
-            p.update(cbs, projectiles);
+            p.update(cbs, projectiles, enemies, player);
             if (p.getRemove()) i.remove();
         }
         for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
@@ -105,15 +105,13 @@ public class LevelState extends GameState {
         int y = player.y_r_pos();
         bg.draw(g);
         cur_room.draw(g, x, y);
-        for (Iterator<Projectile> i = projectiles.iterator(); i.hasNext(); ) { // need to add only draw if on screen
-            Projectile p = i.next();
+        for (Projectile p : projectiles) {
             p.draw(g, x, y);
         }
-        for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
-            Enemy e = i.next();
+        player.draw(g);
+        for (Enemy e : enemies) {
             e.draw(g, x, y);
         }
-        player.draw(g);
         fog.draw(g);
         hud.draw(g);
 

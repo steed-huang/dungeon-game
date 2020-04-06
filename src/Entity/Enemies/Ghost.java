@@ -29,16 +29,8 @@ public class Ghost extends Enemy {
         cb = new CollisionBox("ghost", width, height, room_x, room_y);
     }
 
-    public void move(Player player) {
-        if (player.y_r_pos() > room_y) {up = false; down = true; }
-        else {down = false; up = true;}
-        if (player.x_r_pos() > room_x) {left = false; right = true; }
-        else {right = false; left = true;}
-    }
+    public void shoot(Player player) {}
 
-    public void shoot(Player player) {
-
-    }
 
     public void draw(java.awt.Graphics2D g, int x, int y) { super.draw(g, x, y, (int)room_x, (int)room_y); }
 }

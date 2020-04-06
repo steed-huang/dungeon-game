@@ -29,18 +29,14 @@ public abstract class Enemy extends Entity {
     }
 
     public void update(ArrayList<CollisionBox> cbs, ArrayList<Enemy> enemies, Player player){
-        move(player);
-        shoot(player);
-        getNextPosition(cbs, enemies);
+        getNextPosition(cbs, enemies, player);
         cb.setPosition(room_x, room_y);
         checkPlayerCollision(player);
+        shoot(player);
         checkAlive();
     }
 
-    public boolean getAlive() { return alive;}
-    public void checkAlive() { if (health <= 0) alive = false; }
-
-    public void getNextPosition(ArrayList<CollisionBox> cbs, ArrayList<Enemy> enemies){
+    protected void getNextPosition(ArrayList<CollisionBox> cbs, ArrayList<Enemy> enemies, Player player){
         // wall collision
         boolean left_wall = false;
         boolean right_wall = false;
@@ -54,31 +50,38 @@ public abstract class Enemy extends Entity {
                 if (this.cb.collidesWith(cb, room_x, room_y + speed) && !down_wall) down_wall = true;
             }
         }
-        dx = 0; dy = 0;
-        if (left && !left_wall) dx = -1;
-        if (right && !right_wall) dx = 1;
-        if (up && !up_wall) dy = -1;
-        if (down && !down_wall) dy = 1;
 
-        // normalize movement vector
-        if (dx != 0 || dy != 0) {
-            double length = Math.sqrt(dx * dx + dy * dy);
-            dx /= length;
-            dy /= length;
-            room_x += dx * speed;
-            room_y += dy * speed;
-        }
+        move(player); // sets dx & dy
+
+        if (dx < 0 && !left_wall) room_x += dx * speed;
+        else if (dx > 0 && !right_wall) room_x += dx * speed;
+        if (dy < 0 && !up_wall) room_y += dy * speed;
+        else if (dy > 0 && !down_wall) room_y += dy * speed;
     }
 
-    public void checkPlayerCollision(Player player){
+    protected void checkPlayerCollision(Player player){
         if (System.currentTimeMillis() - last_touch >= touch_delay) {
             if (this.cb.collidesWith(player.getCB())) player.hit(touch_dmg);
             last_touch = System.currentTimeMillis();
         }
     }
 
-    public abstract void move(Player player);
+    public void move(Player player) { // default movement | add a* later if I add more obstacles
+        dx = player.x_r_pos() - room_x;
+        dy = player.y_r_pos() - room_y;
+
+        if (dx != 0 || dy != 0) {
+            double length = Math.sqrt(dx * dx + dy * dy);
+            dx /= length;
+            dy /= length;
+        }
+    }
+
     public abstract void shoot(Player player);
+
+    public void hit(double dmg) { health -= dmg; }
+    public boolean getAlive() { return alive;}
+    public void checkAlive() { if (health <= 0) alive = false; }
 
     public void draw(java.awt.Graphics2D g, int x, int y) { super.draw(g, x, y, (int)room_x, (int)room_y); }
 }

@@ -84,10 +84,10 @@ public class Player extends Entity {
         }
 
         dx = 0; dy = 0;
-        if (left && !left_wall) dx = -1;
-        if (right && !right_wall) dx = 1;
-        if (up && !up_wall) dy = -1;
-        if (down && !down_wall) dy = 1;
+        if (left && !left_wall) dx -= 1;
+        if (right && !right_wall) dx += 1;
+        if (up && !up_wall) dy -= 1;
+        if (down && !down_wall) dy += 1;
 
         // normalize movement vector
         if (dx != 0 || dy != 0) {
@@ -102,7 +102,7 @@ public class Player extends Entity {
     public void shoot(ArrayList<Projectile> projectiles) {
         if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
             double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj", room_x, room_y, vec[0], vec[1], 10, 10, 10));
+            projectiles.add(new Projectile("player_proj",5, room_x, room_y, vec[0], vec[1], 10, 10, 10));
             last_shot = System.currentTimeMillis();
         }
     }

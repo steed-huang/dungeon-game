@@ -1,5 +1,6 @@
 package Entity;
 
+import Player.Player;
 import World.LayoutLoader;
 
 import javax.imageio.ImageIO;
@@ -9,13 +10,15 @@ public class Projectile extends Entity {
 
     private double speed;
     private boolean remove;
+    private double dmg;
 
-    public Projectile(String type, double x, double y, double dx, double dy,  double s, int w, int h){
+    public Projectile(String type, double d, double x, double y, double dx, double dy,  double s, int w, int h){
         try {
             sprite = ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/projectile.png"));
         } catch(Exception e){
             e.printStackTrace();
         }
+        dmg = d;
         room_x = x;
         room_y = y;
         this.dx = dx;
@@ -27,8 +30,9 @@ public class Projectile extends Entity {
         cb = new CollisionBox(type, width, height, room_x, room_y);
     }
 
-    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles){
+    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles, ArrayList<Enemy> enemies, Player player){
         getNextPosition(cbs, projectiles);
+        checkHit(enemies, player);
         cb.setPosition(room_x, room_y);
     }
 
@@ -38,6 +42,22 @@ public class Projectile extends Entity {
 
         for (CollisionBox cb : cbs){
             if ((cb.getType().equals("wall") || cb.getType().equals("door"))&& this.cb.collidesWith(cb)) remove = true;
+        }
+    }
+
+    private void checkHit(ArrayList<Enemy> enemies, Player player) {
+        if (cb.getType().equals("player_proj")) { // player projectile hitting enemy
+            for (Enemy e : enemies) {
+                if ((cb.collidesWith(e.getCB()))) {
+                    e.hit(dmg);
+                    remove = true;
+                }
+            }
+        } else { // enemy projectile hitting player
+            if ((cb.collidesWith(player.getCB()))) {
+                player.hit(dmg);
+                remove = true;
+            }
         }
     }
 
