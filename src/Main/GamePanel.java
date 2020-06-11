@@ -62,14 +62,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 
         // game loop
         while(running) {
-            start = System.nanoTime();
+            start = System.currentTimeMillis();
 
             update();
             draw();
             drawToScreen();
 
-            elapsed = System.nanoTime() - start;
-            wait = targetTime - elapsed / 1000000;
+            elapsed = System.currentTimeMillis() - start;
+            wait = targetTime - elapsed;
             if(wait < 0) wait = 5;
 
             try {

@@ -69,34 +69,32 @@ public class LevelState extends GameState {
 
     public void doorCheck() {
         if (player.y_r_pos() < 25){ // up
-            player.setRoomPosition(player.x_r_pos(), 1450);
+            player.setRoomPosition(player.x_r_pos(), 1474);
             cur_room = level.getRoom(player.map_row-=1, player.map_col);
             updateRoom();
         }
         else if (player.y_r_pos() > 1475){ // down
-            player.setRoomPosition(player.x_r_pos(), 50);
+            player.setRoomPosition(player.x_r_pos(), 26);
             cur_room = level.getRoom(player.map_row+=1, player.map_col);
             updateRoom();
         }
         else if (player.x_r_pos() < 25){ // left
-            player.setRoomPosition(1450, player.y_r_pos());
+            player.setRoomPosition(1474, player.y_r_pos());
             cur_room = level.getRoom(player.map_row, player.map_col-=1);
             updateRoom();
         }
         else if (player.x_r_pos() > 1475){ // right
-            player.setRoomPosition(50, player.y_r_pos());
+            player.setRoomPosition(26, player.y_r_pos());
             cur_room = level.getRoom(player.map_row, player.map_col+=1);
             updateRoom();
         }
     }
 
     public void updateRoom(){
-        cbs.clear();
-        enemies.clear();
         projectiles.clear();
 
-        enemies.addAll(cur_room.getEnemies());
-        cbs.addAll(cur_room.getCBS());
+        enemies = cur_room.getEnemies();
+        cbs = cur_room.getCBS();
         //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 

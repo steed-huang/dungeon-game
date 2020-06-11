@@ -11,8 +11,10 @@ public class Projectile extends Entity {
     private double speed;
     private boolean remove;
     private double dmg;
+    private long born;
+    private long lifetime;
 
-    public Projectile(String type, double d, double x, double y, double dx, double dy,  double s, int w, int h){
+    public Projectile(String type, double d, long l, double x, double y, double dx, double dy,  double s, int w, int h){
         try {
             sprite = ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/projectile.png"));
         } catch(Exception e){
@@ -27,13 +29,17 @@ public class Projectile extends Entity {
         width = w;
         height = h;
 
+        born = System.currentTimeMillis();
+        lifetime = l;
+
         cb = new CollisionBox(type, width, height, room_x, room_y);
     }
 
     public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles, ArrayList<Enemy> enemies, Player player){
+        checkLife();
         getNextPosition(cbs, projectiles);
-        checkHit(enemies, player);
         cb.setPosition(room_x, room_y);
+        checkHit(enemies, player);
     }
 
     private void getNextPosition(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles) { // should add max range to projectiles
@@ -62,6 +68,10 @@ public class Projectile extends Entity {
                 remove = true;
             }
         }
+    }
+
+    private void checkLife() {
+        if (System.currentTimeMillis() - born >= lifetime) { remove = true; }
     }
 
     public boolean getRemove() { return remove;}

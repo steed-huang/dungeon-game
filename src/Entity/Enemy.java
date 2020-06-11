@@ -71,7 +71,7 @@ public abstract class Enemy extends Entity {
         dx = 0; dy = 0;
         double px = player.x_r_pos();
         double py = player.y_r_pos();
-        if (Math.sqrt((py - room_y) * (py - room_y) + (px - room_x) * (px - room_x)) < 400) { // within 400px
+        if (Math.sqrt((py - room_y) * (py - room_y) + (px - room_x) * (px - room_x)) < 350) { // within 350px
             dx = px - room_x;
             dy = py - room_y;
 

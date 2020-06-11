@@ -102,7 +102,7 @@ public class Player extends Entity {
     public void shoot(ArrayList<Projectile> projectiles) {
         if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
             double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj",5, room_x, room_y, vec[0], vec[1], 10, 10, 10));
+            projectiles.add(new Projectile("player_proj",5,350, room_x, room_y, vec[0], vec[1], 10, 10, 10));
             last_shot = System.currentTimeMillis();
         }
     }
