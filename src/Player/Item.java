@@ -2,6 +2,8 @@ package Player;
 import Entity.Entity;
 import Handler.Mouse;
 import Entity.Projectile;
+
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Item  extends Entity {
@@ -9,6 +11,8 @@ public abstract class Item  extends Entity {
     protected boolean picked_up = false;
 
     // projectile stuff
+    protected BufferedImage proj_sprite;
+
     protected long last_shot;
     protected long shot_delay;
 
@@ -23,6 +27,11 @@ public abstract class Item  extends Entity {
         else if (type.equals("ability")) setPosition(920,675);
     }
 
+    public String getType() { return type; }
+    public void pickUp() { picked_up = true; }
+    public void drop() {}
+    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y){}
+
     public double[] getVector() {
         // set center to 0,0
         double x = Mouse.getMouse_x() - 512;
@@ -31,11 +40,6 @@ public abstract class Item  extends Entity {
 
         return new double[]{Math.cos(theta), Math.sin(theta)}; // dx, dy components
     }
-
-    public String getType() { return type; }
-    public void pickUp() { picked_up = true; }
-    public void drop() {}
-    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y){}
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         if (!picked_up) super.draw(g, x, y, (int)room_x, (int)room_y);

@@ -2,6 +2,7 @@ package Entity.Enemies;
 
 import Entity.CollisionBox;
 import Entity.Enemy;
+import Images.ImageLoader;
 import Player.Player;
 
 import javax.imageio.ImageIO;
@@ -11,11 +12,7 @@ public class Ghost extends Enemy {
     public Ghost(int room_x, int room_y) {
         super(room_x, room_y);
 
-        try {
-            sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/ghost.png"));
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        sprite = ImageLoader.getImage("ghost.png");
 
         alive = true;
         health = 15;
