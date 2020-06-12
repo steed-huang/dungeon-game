@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Entity.Projectile;
 import Entity.CollisionBox;
 import Handler.Mouse;
+import Player.Items.Magic_Stick;
 
 import javax.imageio.ImageIO;
 
@@ -24,8 +25,9 @@ public class Player extends Entity {
 
     // shots
     private boolean firing;
-    private long last_shot;
-    private final long shot_delay;
+
+    // inventory
+    private Inventory inv;
 
     public Player(int r, int c){
         try {
@@ -43,6 +45,9 @@ public class Player extends Entity {
         width = 50;
         height = 50;
 
+        inv = new Inventory();
+        inv.setWeapon(new Magic_Stick(0,0));
+
         cb = new CollisionBox("player", width, height, room_x, room_y);
 
         health = 100;
@@ -51,8 +56,6 @@ public class Player extends Entity {
         speed = 5;
 
         firing = false;
-        last_shot = 0;
-        shot_delay = 300;
     }
 
     public double health(){ return health; }
@@ -100,20 +103,7 @@ public class Player extends Entity {
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {
-        if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
-            double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj",5,350, room_x, room_y, vec[0], vec[1], 10, 10, 10));
-            last_shot = System.currentTimeMillis();
-        }
-    }
-
-    public double[] getVector() {
-        // set center to 0,0
-        double x = Mouse.getMouse_x() - 512;
-        double y = Mouse.getMouse_y() - 384;
-        double theta = Math.atan2(y, x);
-
-        return new double[]{Math.cos(theta), Math.sin(theta)}; // dx, dy components
+        inv.getWeapon().shoot(firing, projectiles, room_x, room_y);
     }
 
     public void hit(double dmg) { health -= dmg; }

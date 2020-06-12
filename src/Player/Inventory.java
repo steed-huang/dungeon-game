@@ -1,12 +1,11 @@
 package Player;
 
 public class Inventory {
-    private static final int SIZE = 3;
-    private static Item[] slots = new Item[SIZE];
+    private Item weapon;
+    private Item ability;
 
-    public Item getItem(int slot){ return slots[slot];};
-
-    public void addItem(){};
-    public void useItem(){};
-    public void deleteItem(){};
+    public void setWeapon(Item w) { weapon = w; }
+    public void setAbility(Item a) { ability = a; }
+    public Item getWeapon() { return weapon; }
+    public Item getAbility() {return ability; }
 }

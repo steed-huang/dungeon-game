@@ -4,6 +4,7 @@ import Player.Player;
 import World.LayoutLoader;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Projectile extends Entity {
@@ -14,12 +15,9 @@ public class Projectile extends Entity {
     private long born;
     private long lifetime;
 
-    public Projectile(String type, double d, long l, double x, double y, double dx, double dy,  double s, int w, int h){
-        try {
-            sprite = ImageIO.read(LayoutLoader.class.getResourceAsStream("/Assets/projectile.png"));
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+    public Projectile(String type, BufferedImage sp, double d, long l, double x, double y, double dx, double dy, double s, int w, int h){
+        sprite = sp;
+
         dmg = d;
         room_x = x;
         room_y = y;
