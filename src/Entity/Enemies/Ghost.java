@@ -6,6 +6,7 @@ import Images.ImageLoader;
 import Player.Player;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 
 public class Ghost extends Enemy {
 
@@ -28,6 +29,10 @@ public class Ghost extends Enemy {
 
     public void shoot(Player player) {}
 
+    public void draw(java.awt.Graphics2D g, int x, int y) {
+        super.draw(g, x, y, (int)room_x, (int)room_y);
+        drawHealth(g, x, y, (int)room_x, (int)room_y);
+    }
 
-    public void draw(java.awt.Graphics2D g, int x, int y) { super.draw(g, x, y, (int)room_x, (int)room_y); }
+    public void drawHealth(java.awt.Graphics2D g, int px, int py, int x, int y) { super.drawHealth(g, px, py, x, y); }
 }

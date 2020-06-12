@@ -2,6 +2,8 @@ package Entity;
 
 import Main.RandomGenerator;
 import Player.Player;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Enemy extends Entity {
@@ -89,5 +91,15 @@ public abstract class Enemy extends Entity {
     public boolean getAlive() { return alive;}
     public void checkAlive() { if (health <= 0) alive = false; }
 
-    public void draw(java.awt.Graphics2D g, int x, int y) { super.draw(g, x, y, (int)room_x, (int)room_y); }
+    public void draw(java.awt.Graphics2D g, int x, int y) {
+        super.draw(g, x, y, (int)room_x, (int)room_y); // draw self
+    }
+
+    // draw health bar
+    public void drawHealth(java.awt.Graphics2D g, int px, int py, int x, int y) {
+        g.setColor(new Color(170, 27, 27));
+        g.fillRect(512-px+(x - (int)(width*0.75)/2), 384-py+(y - height/2)+height, (int)(width*0.75), 5); // red
+        g.setColor(new Color(0, 169, 0));
+        g.fillRect(512-px+(x - (int)(width*0.75)/2), 384-py+(y - height/2)+height, (int) ((width*0.75) * (health / maxHealth)), 5); // green
+    }
 }
