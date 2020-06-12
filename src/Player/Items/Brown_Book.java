@@ -5,23 +5,24 @@ import Player.Item;
 import Images.ImageLoader;
 import java.util.ArrayList;
 
-public class Magic_Stick extends Item {
+public class Brown_Book extends Item {
 
-    public Magic_Stick(int room_x, int room_y) {
-        super("weapon", room_x, room_y);
+    public Brown_Book(int room_x, int room_y) {
+        super("ability", room_x, room_y);
 
-        sprite = ImageLoader.getImage("magic_stick.png");
-        proj_sprite = ImageLoader.getImage("projectile.png");
+        sprite = ImageLoader.getImage("brown_book.png");
+        proj_sprite = ImageLoader.getImage("fireball.png");
 
         this.last_shot = 0;
-        this.shot_delay = 300;
+        this.shot_delay = 5000;
     }
 
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {
         if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
             double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj", proj_sprite, 5,350, x, y, vec[0], vec[1], 10, 10, 10));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 15,1000, x, y, vec[0], vec[1], 5, 30, 30));
             last_shot = System.currentTimeMillis();
         }
     }
+
 }

@@ -112,6 +112,7 @@ public class LevelState extends GameState {
         }
         fog.draw(g);
         hud.draw(g);
+        player.getInv().draw(g);
 
         // for (CollisionBox cb : cbs){ cb.draw(g, x, y); }
     }
@@ -119,6 +120,9 @@ public class LevelState extends GameState {
     public void handleInput() {
         // firing
         if (Mouse.isHeld()) player.setFiring(true); else player.setFiring(false);
+
+        // ability
+        if (Keys.isHeld(Keys.SPACE)) player.setAbilityFiring(true); else player.setAbilityFiring(false);
 
         // movement
         if (Keys.isHeld(Keys.W)) player.setUp(true); else player.setUp(false);

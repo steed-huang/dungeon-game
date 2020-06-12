@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Entity.Projectile;
 import Entity.CollisionBox;
 import Handler.Mouse;
+import Player.Items.Brown_Book;
 import Player.Items.Magic_Stick;
 
 import javax.imageio.ImageIO;
@@ -23,8 +24,9 @@ public class Player extends Entity {
     private boolean alive;
     private double speed;
 
-    // shots
+    // shots & ability
     private boolean firing;
+    private boolean ability_firing;
 
     // inventory
     private Inventory inv;
@@ -47,6 +49,7 @@ public class Player extends Entity {
 
         inv = new Inventory();
         inv.setWeapon(new Magic_Stick(0,0));
+        inv.setAbility(new Brown_Book(0,0));
 
         cb = new CollisionBox("player", width, height, room_x, room_y);
 
@@ -56,12 +59,16 @@ public class Player extends Entity {
         speed = 5;
 
         firing = false;
+        ability_firing = false;
     }
 
     public double health(){ return health; }
     public double maxHealth(){ return maxHealth; }
 
     public void setFiring(boolean b ){ firing = b;}
+    public void setAbilityFiring(boolean b ){ ability_firing = b; }
+
+    public Inventory getInv() { return inv; }
 
     public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles){
         getNextPosition(cbs);
@@ -104,6 +111,7 @@ public class Player extends Entity {
 
     public void shoot(ArrayList<Projectile> projectiles) {
         inv.getWeapon().shoot(firing, projectiles, room_x, room_y);
+        inv.getAbility().shoot(ability_firing, projectiles, room_x, room_y);
     }
 
     public void hit(double dmg) { health -= dmg; }
