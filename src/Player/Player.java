@@ -30,6 +30,7 @@ public class Player extends Entity {
 
     // inventory
     private Inventory inv;
+    private boolean picking;
 
     public Player(int r, int c){
         try {
@@ -60,6 +61,8 @@ public class Player extends Entity {
 
         firing = false;
         ability_firing = false;
+
+        picking = false;
     }
 
     public double health(){ return health; }
@@ -70,10 +73,11 @@ public class Player extends Entity {
 
     public Inventory getInv() { return inv; }
 
-    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles){
+    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles, ArrayList<Item> items){
         getNextPosition(cbs);
         cb.setPosition(room_x, room_y);
         setRoomPosition(room_x, room_y);
+        checkItemCollision(items);
         shoot(projectiles);
         checkAlive();
     }
@@ -109,10 +113,19 @@ public class Player extends Entity {
         }
     }
 
+    protected void checkItemCollision(ArrayList<Item> items) {
+        for (Item i : items) {
+            i.setReachable(this.cb.collidesWith(i.getCB()));
+            if (picking && i.getReachable()) { i.pickUp(inv, items); break; } // pick up
+        }
+    }
+
     public void shoot(ArrayList<Projectile> projectiles) {
         inv.getWeapon().shoot(firing, projectiles, room_x, room_y);
         inv.getAbility().shoot(ability_firing, projectiles, room_x, room_y);
     }
+
+    public void setPicking(boolean b) { picking = b; }
 
     public void hit(double dmg) { health -= dmg; }
 

@@ -6,8 +6,10 @@ import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
+import Player.Items.Triple_Stick;
 import Player.Player;
 import Player.HUD;
+import Player.Item;
 import World.Map;
 import World.Room;
 
@@ -27,6 +29,7 @@ public class LevelState extends GameState {
     private ArrayList<CollisionBox> cbs = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
 
     public LevelState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -48,10 +51,11 @@ public class LevelState extends GameState {
         cur_room = level.getRoom(player.map_row, player.map_col);
 
         updateRoom();
+        items.add(new Triple_Stick(500,500));
     }
 
     public void update() {
-        player.update(cbs, projectiles);
+        player.update(cbs, projectiles, items);
         // will throw ConcurrentModificationException if enhanced for is used
         for (Iterator<Projectile> i = projectiles.iterator(); i.hasNext(); ) {
             Projectile p = i.next();
@@ -63,6 +67,7 @@ public class LevelState extends GameState {
             e.update(cbs, enemies, player);
             if (!e.getAlive()) i.remove();
         }
+        items.removeIf(i -> i.getPickedUp());
         handleInput();
         doorCheck();
     }
@@ -95,6 +100,7 @@ public class LevelState extends GameState {
 
         enemies = cur_room.getEnemies();
         cbs = cur_room.getCBS();
+        items = cur_room.getItems();
         //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 
@@ -106,12 +112,15 @@ public class LevelState extends GameState {
         for (Projectile p : projectiles) {
             p.draw(g, x, y);
         }
+        for (Item i : items) {
+            i.draw(g, x, y);
+        }
         player.draw(g);
         for (Enemy e : enemies) {
             e.draw(g, x, y);
         }
         fog.draw(g);
-        hud.draw(g);
+        hud.draw(g, player.getInv().getAbility().getReady());
         player.getInv().draw(g);
 
         // for (CollisionBox cb : cbs){ cb.draw(g, x, y); }
@@ -123,6 +132,9 @@ public class LevelState extends GameState {
 
         // ability
         if (Keys.isHeld(Keys.SPACE)) player.setAbilityFiring(true); else player.setAbilityFiring(false);
+
+        // pick up
+        if (Keys.isPressed(Keys.ENTER)) player.setPicking(true); else player.setPicking(false);
 
         // movement
         if (Keys.isHeld(Keys.W)) player.setUp(true); else player.setUp(false);

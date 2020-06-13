@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Magic_Stick extends Item {
 
     public Magic_Stick(int room_x, int room_y) {
-        super("weapon", room_x, room_y);
+        super("weapon", room_x, room_y, true);
 
         sprite = ImageLoader.getImage("magic_stick.png");
         proj_sprite = ImageLoader.getImage("projectile.png");
