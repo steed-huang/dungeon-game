@@ -6,6 +6,7 @@ import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
+import Player.Items.Magic_Ball;
 import Player.Items.Triple_Stick;
 import Player.Player;
 import Player.HUD;
@@ -52,6 +53,7 @@ public class LevelState extends GameState {
 
         updateRoom();
         items.add(new Triple_Stick(500,500));
+        items.add(new Magic_Ball(600,500));
     }
 
     public void update() {
