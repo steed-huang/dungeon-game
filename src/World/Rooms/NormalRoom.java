@@ -1,6 +1,6 @@
 package World.Rooms;
 
-import Entity.Enemies.Ghost;
+import Entity.Enemies.*;
 import Main.RandomGenerator;
 import World.Room;
 
@@ -17,7 +17,10 @@ public class NormalRoom extends Room {
             if (layout.grid[row][col] == 1){
                 // not next to wall
                 if (layout.grid[row+1][col] != 2 && layout.grid[row-1][col] != 2 &&  layout.grid[row][col-1] != 2 &&  layout.grid[row][col+1] != 2){
-                    enemies.add(new Ghost(col*50+25, row*50+25));
+                    int enemy = RandomGenerator.getRandom(1, 3);
+                    if (enemy == 1) enemies.add(new Ghost(col*50+25, row*50+25));
+                    if (enemy == 2) enemies.add(new Slime(col*50+25, row*50+25));
+                    if (enemy == 3) enemies.add(new Skeleton(col*50+25, row*50+25));
                     temp_ghost_count--;
                 }
             }

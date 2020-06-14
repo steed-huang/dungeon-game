@@ -23,6 +23,11 @@ public abstract class Enemy extends Entity {
     protected long last_shot;
     protected long shot_delay;
 
+    // keeping track of player
+    protected double px;
+    protected double py;
+    protected double dist;
+
     public Enemy (int room_x, int room_y) {
         this.room_x = room_x;
         this.room_y = room_y;
@@ -31,11 +36,11 @@ public abstract class Enemy extends Entity {
         last_shot = 0;
     }
 
-    public void update(ArrayList<CollisionBox> cbs, ArrayList<Enemy> enemies, Player player){
+    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles, ArrayList<Enemy> enemies, Player player){
         getNextPosition(cbs, enemies, player);
         cb.setPosition(room_x, room_y);
         checkPlayerCollision(player);
-        shoot(player);
+        shoot(projectiles);
         checkAlive();
     }
 
@@ -54,6 +59,7 @@ public abstract class Enemy extends Entity {
             }
         }
 
+        updatePlayer(player);
         move(player); // sets dx & dy
 
         if (dx < 0 && !left_wall) room_x += dx * speed;
@@ -71,9 +77,7 @@ public abstract class Enemy extends Entity {
 
     public void move(Player player) { // default movement | add a* later if I add more obstacles
         dx = 0; dy = 0;
-        double px = player.x_r_pos();
-        double py = player.y_r_pos();
-        if (Math.sqrt((py - room_y) * (py - room_y) + (px - room_x) * (px - room_x)) < 350) { // within 350px
+        if (dist < 350) { // within 350px
             dx = px - room_x;
             dy = py - room_y;
 
@@ -85,7 +89,13 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public abstract void shoot(Player player);
+    public void updatePlayer(Player player) {
+        px = player.x_r_pos();
+        py = player.y_r_pos();
+        dist = Math.sqrt((py - room_y) * (py - room_y) + (px - room_x) * (px - room_x));
+    }
+
+    public abstract void shoot( ArrayList<Projectile> projectiles);
 
     public void hit(double dmg) { health -= dmg; }
     public boolean getAlive() { return alive;}

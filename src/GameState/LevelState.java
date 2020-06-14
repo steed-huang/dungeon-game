@@ -66,7 +66,7 @@ public class LevelState extends GameState {
         }
         for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
             Enemy e = i.next();
-            e.update(cbs, enemies, player);
+            e.update(cbs, projectiles, enemies, player);
             if (!e.getAlive()) i.remove();
         }
         items.removeIf(i -> i.getPickedUp());

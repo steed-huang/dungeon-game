@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 public abstract class Entity {
     // sprite
     protected BufferedImage sprite;
+    protected BufferedImage proj_sprite;
 
     // collision
     protected CollisionBox cb;

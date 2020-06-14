@@ -8,23 +8,23 @@ import Player.Player;
 
 import java.util.ArrayList;
 
-public class Ghost extends Enemy {
+public class Slime extends Enemy {
 
-    public Ghost(int room_x, int room_y) {
+    public Slime(int room_x, int room_y) {
         super(room_x, room_y);
 
-        sprite = ImageLoader.getImage("ghost.png");
+        sprite = ImageLoader.getImage("slime.png");
 
         alive = true;
-        health = 15;
-        maxHealth = 15;
-        speed = 4;
-        touch_dmg = 3;
+        health = 50;
+        maxHealth = 50;
+        speed = 1;
+        touch_dmg = 8;
 
-        width = 50;
-        height = 50;
+        width = 75;
+        height = 75;
 
-        cb = new CollisionBox("ghost", width, height, room_x, room_y);
+        cb = new CollisionBox("slime", width, height, room_x, room_y);
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {}
