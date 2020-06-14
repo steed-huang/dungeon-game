@@ -1,7 +1,7 @@
 package Entity;
 
-import Main.RandomGenerator;
 import Player.Player;
+import Player.Item;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,12 +36,12 @@ public abstract class Enemy extends Entity {
         last_shot = 0;
     }
 
-    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles, ArrayList<Enemy> enemies, Player player){
+    public void update(ArrayList<CollisionBox> cbs, ArrayList<Projectile> projectiles, ArrayList<Enemy> enemies, ArrayList<Item> items, Player player){
         getNextPosition(cbs, enemies, player);
         cb.setPosition(room_x, room_y);
         checkPlayerCollision(player);
         shoot(projectiles);
-        checkAlive();
+        checkAlive(items);
     }
 
     protected void getNextPosition(ArrayList<CollisionBox> cbs, ArrayList<Enemy> enemies, Player player){
@@ -83,8 +83,8 @@ public abstract class Enemy extends Entity {
 
             if (dx != 0 || dy != 0) {
                 double length = Math.sqrt(dx * dx + dy * dy);
-                dx /= length; dx += RandomGenerator.getRandom(-0.2, 0.2); // add random variation
-                dy /= length; dy += RandomGenerator.getRandom(-0.2, 0.2);
+                dx /= length;
+                dy /= length;
             }
         }
     }
@@ -96,10 +96,17 @@ public abstract class Enemy extends Entity {
     }
 
     public abstract void shoot( ArrayList<Projectile> projectiles);
-
     public void hit(double dmg) { health -= dmg; }
     public boolean getAlive() { return alive;}
-    public void checkAlive() { if (health <= 0) alive = false; }
+
+    public void checkAlive(ArrayList<Item> items) {
+        if (health <= 0){
+            dropItem(items);
+            alive = false;
+        }
+    }
+
+    public abstract void dropItem(ArrayList<Item> items);
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y, (int)room_x, (int)room_y); // draw self

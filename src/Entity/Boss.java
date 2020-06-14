@@ -2,6 +2,7 @@ package Entity;
 
 import Player.Player;
 import java.util.ArrayList;
+import Player.Item;
 
 public class Boss extends Enemy {
     public Boss(int room_x, int room_y) {
@@ -12,5 +13,5 @@ public class Boss extends Enemy {
 
     public void shoot(ArrayList<Projectile> projectiles) {}
 
-    public void shoot(Player player) {}
+    public void dropItem(ArrayList<Item> items) {}
 }

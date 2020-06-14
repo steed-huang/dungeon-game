@@ -102,7 +102,7 @@ public class Map {
 
                     layout[i][j].setDoors(up, down, left, right);
                     layout[i][j].generateWallCB();
-                    layout[i][j].generateEnemies();
+                    if (!(i == spawn_row && j == spawn_col)) layout[i][j].generateEnemies();
                 }
             }
         }

@@ -7,6 +7,7 @@ import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
 import Player.Items.Magic_Ball;
+import Player.Items.Sniper_Stick;
 import Player.Items.Triple_Stick;
 import Player.Player;
 import Player.HUD;
@@ -52,8 +53,6 @@ public class LevelState extends GameState {
         cur_room = level.getRoom(player.map_row, player.map_col);
 
         updateRoom();
-        items.add(new Triple_Stick(500,500));
-        items.add(new Magic_Ball(600,500));
     }
 
     public void update() {
@@ -66,7 +65,7 @@ public class LevelState extends GameState {
         }
         for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
             Enemy e = i.next();
-            e.update(cbs, projectiles, enemies, player);
+            e.update(cbs, projectiles, enemies, items, player);
             if (!e.getAlive()) i.remove();
         }
         items.removeIf(i -> i.getPickedUp());
@@ -136,7 +135,7 @@ public class LevelState extends GameState {
         if (Keys.isHeld(Keys.SPACE)) player.setAbilityFiring(true); else player.setAbilityFiring(false);
 
         // pick up
-        if (Keys.isPressed(Keys.ENTER)) player.setPicking(true); else player.setPicking(false);
+        if (Keys.isPressed(Keys.E)) player.setPicking(true); else player.setPicking(false);
 
         // movement
         if (Keys.isHeld(Keys.W)) player.setUp(true); else player.setUp(false);

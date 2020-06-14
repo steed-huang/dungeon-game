@@ -14,7 +14,7 @@ public class Brown_Book extends Item {
         proj_sprite = ImageLoader.getImage("fireball.png");
 
         this.last_shot = 0;
-        this.shot_delay = 5000;
+        this.shot_delay = 4000;
     }
 
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {

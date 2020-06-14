@@ -4,7 +4,10 @@ import Entity.CollisionBox;
 import Entity.Enemy;
 import Entity.Projectile;
 import Images.ImageLoader;
-import Player.Player;
+import Main.RandomGenerator;
+import Player.Item;
+import Player.Items.Magic_Ball;
+import Player.Items.Triple_Stick;
 
 import java.util.ArrayList;
 
@@ -19,7 +22,7 @@ public class Slime extends Enemy {
         health = 50;
         maxHealth = 50;
         speed = 1;
-        touch_dmg = 8;
+        touch_dmg = 10;
 
         width = 75;
         height = 75;
@@ -28,6 +31,12 @@ public class Slime extends Enemy {
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {}
+
+    public void dropItem(ArrayList<Item> items) {
+        if (RandomGenerator.getRandom(1, 100) <= 20) {
+            items.add(new Triple_Stick((int)room_x, (int)room_y));
+        }
+    }
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y, (int)room_x, (int)room_y);

@@ -130,6 +130,7 @@ public class Player extends Entity {
     public void hit(double dmg) { health -= dmg; }
 
     public void checkAlive() { if (health <= 0) alive = false; }
+    public boolean getAlive() { return alive; }
 
     public void draw(Graphics2D g) { super.draw(g); }
 }

@@ -14,7 +14,7 @@ public class Magic_Ball extends Item {
         proj_sprite = ImageLoader.getImage("magic_proj.png");
 
         this.last_shot = 0;
-        this.shot_delay = 5000;
+        this.shot_delay = 6000;
     }
 
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {
@@ -34,9 +34,9 @@ public class Magic_Ball extends Item {
             }
 
             // firing projectiles
-            projectiles.add(new Projectile("player_proj", proj_sprite, 7,500, x, y, vec[0], vec[1], 4, 15, 15));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 8,500, x, y, vec[0], vec[1], 5, 15, 15));
             for(int i = 0; i < 7; i++){
-                projectiles.add(new Projectile("player_proj", proj_sprite, 7,500, x, y, turned_vecs[i][0], turned_vecs[i][1], 4, 15, 15));
+                projectiles.add(new Projectile("player_proj", proj_sprite, 8,500, x, y, turned_vecs[i][0], turned_vecs[i][1], 5, 15, 15));
             }
 
             last_shot = System.currentTimeMillis();

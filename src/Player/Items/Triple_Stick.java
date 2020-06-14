@@ -14,7 +14,7 @@ public class Triple_Stick extends Item {
         proj_sprite = ImageLoader.getImage("projectile.png");
 
         this.last_shot = 0;
-        this.shot_delay = 500;
+        this.shot_delay = 600;
     }
 
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {
@@ -30,8 +30,8 @@ public class Triple_Stick extends Item {
             double left_y = Math.sin(-0.35)*vec[0] +  Math.cos(-0.35)*vec[1];
 
             projectiles.add(new Projectile("player_proj", proj_sprite, 3,300, x, y, vec[0], vec[1], 8, 10, 10));
-            projectiles.add(new Projectile("player_proj", proj_sprite, 2,300, x, y, right_x, right_y, 8, 10, 10));
-            projectiles.add(new Projectile("player_proj", proj_sprite, 2,300, x, y, left_x, left_y, 8, 10, 10));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 3,300, x, y, right_x, right_y, 8, 10, 10));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 3,300, x, y, left_x, left_y, 8, 10, 10));
 
             last_shot = System.currentTimeMillis();
         }
