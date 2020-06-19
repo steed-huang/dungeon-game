@@ -6,6 +6,7 @@ import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
+import Player.Items.Portal;
 import Player.Player;
 import Player.HUD;
 import Player.Item;
@@ -30,6 +31,11 @@ public class LevelState extends GameState {
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
 
+    private boolean restart = true;
+
+    private int level_kill_count;
+    private static int current_level = 1;
+
     public LevelState(GameStateManager gsm) {
         this.gsm = gsm;
     }
@@ -38,12 +44,17 @@ public class LevelState extends GameState {
         bg = new Background("/Assets/black.jpg", 0);
         fog = new Background("/Assets/fog.png", 0);
 
+        System.out.println(current_level);
+
+        level_kill_count = 0;
+
         level = new Map();
         level.generateMap();
         level.printBaseLayout();
         level.printLayout();
 
-        player = new Player(level.getSpawnRow(), level.getSpawnCol());
+        if (restart) player = new Player(level.getSpawnRow(), level.getSpawnCol());
+        else player.setMapPos(level.getSpawnRow(), level.getSpawnCol());
 
         hud = new HUD(player);
 
@@ -65,13 +76,23 @@ public class LevelState extends GameState {
         for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
             Enemy e = i.next();
             e.update(cbs, projectiles, enemies, items, player);
-            if (!e.getAlive()) { i.remove(); player.addScore(100);};
+            if (!e.getAlive()) {
+                player.addScore(100);
+                level_kill_count++;
+                if (level_kill_count == 10) {
+                    items.add(new Portal(player.x_r_pos(), player.y_r_pos(), gsm));
+                    restart = false;
+                    current_level += 1;
+                }
+                i.remove();
+            }
         }
         items.removeIf(i -> i.getPickedUp());
         handleInput();
         doorCheck();
 
         if (!player.getAlive()) { // player died
+            restart = true;
             gsm.setState(GameStateManager.LOST, player.getScore());
         }
     }

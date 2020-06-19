@@ -70,6 +70,11 @@ public class Player extends Entity {
         score = 0;
     }
 
+    public void setMapPos(int row, int col) {
+        map_row = row;
+        map_col = col;
+    }
+
     public void addScore(int score) { this.score += score; }
 
     public double health(){ return health; }

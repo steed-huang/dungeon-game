@@ -49,14 +49,15 @@ public abstract class Item  extends Entity {
             current.getCB().setPosition(room_x, room_y);
             current.drop(items);
             inv.setWeapon(this); // pick up new
+            picked_up = true;
         } else if (type.equals("ability")){
             Item current = inv.getAbility(); // drop old
             current.setRoomPosition(room_x, room_y);
             current.getCB().setPosition(room_x, room_y);
             current.drop(items);
             inv.setAbility(this); // pick up new
+            picked_up = true;
         }
-        picked_up = true;
     }
 
     public void drop(ArrayList<Item> items) {

@@ -20,7 +20,7 @@ public class Magic_Stick extends Item {
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {
         if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
             double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj", proj_sprite, 5,350, x, y, vec[0], vec[1], 10, 10, 10));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 30,350, x, y, vec[0], vec[1], 10, 10, 10));
             last_shot = System.currentTimeMillis();
         }
     }
