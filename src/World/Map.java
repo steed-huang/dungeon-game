@@ -8,10 +8,11 @@ import java.util.List;
 
 public class Map {
     private static final int SIZE = 15; // width and height
-    private static int[][] base_layout = new int[SIZE][SIZE]; // locations of specific rooms
-    private static Room[][] layout = new Room[SIZE][SIZE]; // specifies room layout type
     private static int spawn_col = SIZE / 2;
     private static int spawn_row = SIZE / 2;
+
+    private int[][] base_layout = new int[SIZE][SIZE]; // locations of specific rooms
+    private Room[][] layout = new Room[SIZE][SIZE]; // specifies room layout type
 
     // 0 - nothing, 1 - normal, 2 - spawn
     public void generateMap() {

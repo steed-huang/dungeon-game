@@ -20,6 +20,7 @@ public class AboutState extends GameState {
     }
 
     public void init() {}
+    public void init(int score) {}
 
     public void update() {
         handleInput();

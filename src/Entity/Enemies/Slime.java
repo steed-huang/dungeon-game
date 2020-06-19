@@ -6,7 +6,6 @@ import Entity.Projectile;
 import Images.ImageLoader;
 import Main.RandomGenerator;
 import Player.Item;
-import Player.Items.Magic_Ball;
 import Player.Items.Triple_Stick;
 
 import java.util.ArrayList;

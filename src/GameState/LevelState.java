@@ -6,9 +6,6 @@ import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
-import Player.Items.Magic_Ball;
-import Player.Items.Sniper_Stick;
-import Player.Items.Triple_Stick;
 import Player.Player;
 import Player.HUD;
 import Player.Item;
@@ -55,6 +52,8 @@ public class LevelState extends GameState {
         updateRoom();
     }
 
+    public void init(int score) {} // overloaded
+
     public void update() {
         player.update(cbs, projectiles, items);
         // will throw ConcurrentModificationException if enhanced for is used
@@ -66,11 +65,15 @@ public class LevelState extends GameState {
         for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
             Enemy e = i.next();
             e.update(cbs, projectiles, enemies, items, player);
-            if (!e.getAlive()) i.remove();
+            if (!e.getAlive()) { i.remove(); player.addScore(100);};
         }
         items.removeIf(i -> i.getPickedUp());
         handleInput();
         doorCheck();
+
+        if (!player.getAlive()) { // player died
+            gsm.setState(GameStateManager.LOST, player.getScore());
+        }
     }
 
     public void doorCheck() {
@@ -104,6 +107,8 @@ public class LevelState extends GameState {
         items = cur_room.getItems();
         //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
+
+
 
     public void draw(Graphics2D g) {
         int x = player.x_r_pos();

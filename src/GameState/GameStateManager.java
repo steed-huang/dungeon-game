@@ -12,21 +12,29 @@ public class GameStateManager {
     public static final int CONTROL = 2;
     public static final int LEADERBOARD = 3;
     public static final int LEVEL = 4;
+    public static final int LOST = 5;
 
     public GameStateManager() {
         gameStates = new ArrayList<GameState>();
 
         currentState = MENU;
+
         gameStates.add(new MenuState(this));
         gameStates.add(new AboutState(this));
         gameStates.add(new ControlsState(this));
         gameStates.add(new LeaderboardState(this));
         gameStates.add(new LevelState(this));
+        gameStates.add(new LostState(this));
     }
 
     public void setState(int state) {
         currentState = state;
         gameStates.get(currentState).init();
+    }
+
+    public void setState(int state, int score) {
+        currentState = state;
+        gameStates.get(currentState).init(score);
     }
 
     public void update() {

@@ -32,6 +32,9 @@ public class Player extends Entity {
     private Inventory inv;
     private boolean picking;
 
+    // high score
+    private int score;
+
     public Player(int r, int c){
         try {
             sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/player.png"));
@@ -63,7 +66,11 @@ public class Player extends Entity {
         ability_firing = false;
 
         picking = false;
+
+        score = 0;
     }
+
+    public void addScore(int score) { this.score += score; }
 
     public double health(){ return health; }
     public double maxHealth(){ return maxHealth; }
@@ -129,6 +136,7 @@ public class Player extends Entity {
 
     public void hit(double dmg) { health -= dmg; }
 
+    public int getScore() { return score; }
     public void checkAlive() { if (health <= 0) alive = false; }
     public boolean getAlive() { return alive; }
 
