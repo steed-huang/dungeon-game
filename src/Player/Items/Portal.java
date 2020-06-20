@@ -28,6 +28,7 @@ public class Portal extends Item {
         LevelState.current_level += 1;
         if (LevelState.current_level == 4) {
             gsm.setState(GameStateManager.WON, player.getScore()); // you win
+            LevelState.restart = true;
             LevelState.current_level = 1;
         }
         else gsm.setState(GameStateManager.LEVEL); // next level

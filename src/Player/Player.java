@@ -39,6 +39,10 @@ public class Player extends Entity {
     private long last_paralyzed;
     private long paralyze_delay;
 
+    // speed
+    private long last_speed;
+    private long speed_delay;
+
     public Player(int r, int c){
         try {
             sprite = ImageIO.read(getClass().getResourceAsStream("/Assets/player.png"));
@@ -73,6 +77,9 @@ public class Player extends Entity {
         paralyzed = false;
         paralyze_delay = 300;
 
+        last_speed = 0;
+        speed_delay = 2500;
+
         score = 0;
     }
 
@@ -98,6 +105,7 @@ public class Player extends Entity {
         checkItemCollision(items);
         shoot(projectiles);
         checkParalyze();
+        checkSpeed();
         checkAlive();
     }
 
@@ -142,8 +150,8 @@ public class Player extends Entity {
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {
-        inv.getWeapon().shoot(firing, projectiles, room_x, room_y);
-        inv.getAbility().shoot(ability_firing, projectiles, room_x, room_y);
+        inv.getWeapon().shoot(firing, projectiles, room_x, room_y,this);
+        inv.getAbility().shoot(ability_firing, projectiles, room_x, room_y,this);
     }
 
     public void paralyze() {
@@ -155,9 +163,16 @@ public class Player extends Entity {
         if (paralyzed && System.currentTimeMillis() - last_paralyzed > paralyze_delay) paralyzed = false;
     }
 
+    public void checkSpeed(){
+        if (speed != 5 && System.currentTimeMillis() - last_speed > speed_delay) speed = 5;
+    }
+
     public void setPicking(boolean b) { picking = b; }
+    public void setLastSpeed(long t) { last_speed = t; }
+    public void setSpeed(int speed) { this.speed = speed; }
 
     public void hit(double dmg) { health -= dmg; }
+    public void heal(double health) {this.health += health; if(this.health > 100) this.health = 100; }
 
     public int getScore() { return score; }
     public void checkAlive() { if (health <= 0) alive = false; }

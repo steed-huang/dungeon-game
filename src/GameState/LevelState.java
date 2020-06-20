@@ -4,12 +4,11 @@ import Entity.CollisionBox;
 import Entity.Enemies.BabySlime;
 import Entity.Enemies.Golemite;
 import Entity.Enemy;
-import Entity.Enemies.Slime;
 import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
 import Images.Background;
-import Player.Items.Portal;
+import Player.Items.*;
 import Player.Player;
 import Player.HUD;
 import Player.Item;
@@ -34,7 +33,7 @@ public class LevelState extends GameState {
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
 
-    private boolean restart = true;
+    public static boolean restart = true;
 
     private int level_kill_count;
     public static int current_level = 1; // you can change this to 1, 2, 3
@@ -104,7 +103,7 @@ public class LevelState extends GameState {
                 player.addScore(100);
                 // increase kill count if not baby slime or golemite
                 level_kill_count++;
-                if (level_kill_count == 10) {
+                if (level_kill_count == 10 + (current_level-1)*5) {
                     items.add(new Portal(player.x_r_pos(), player.y_r_pos(), gsm));
                     restart = false;
                 }

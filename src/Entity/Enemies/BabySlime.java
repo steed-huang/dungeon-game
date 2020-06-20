@@ -17,8 +17,8 @@ public class BabySlime extends Enemy {
         sprite = ImageLoader.getImage("babyslime.png");
 
         alive = true;
-        health = 30;
-        maxHealth = 30;
+        health = 25;
+        maxHealth = 25;
         speed = 3;
         touch_dmg = 5;
 

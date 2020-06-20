@@ -3,6 +3,8 @@ package Player.Items;
 import Entity.Projectile;
 import Player.Item;
 import Images.ImageLoader;
+import Player.Player;
+
 import java.util.ArrayList;
 
 public class Magic_Ball extends Item {
@@ -17,7 +19,7 @@ public class Magic_Ball extends Item {
         this.shot_delay = 6000;
     }
 
-    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {
+    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y, Player player) {
         boolean ready = System.currentTimeMillis() - last_shot >= shot_delay;
         if (!this.ready && ready) this.ready = true;
         if (firing && ready) {
@@ -34,9 +36,9 @@ public class Magic_Ball extends Item {
             }
 
             // firing projectiles
-            projectiles.add(new Projectile("player_proj", proj_sprite, 8,500, x, y, vec[0], vec[1], 5, 15, 15));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 15,1000, x, y, vec[0], vec[1], 5, 15, 15));
             for(int i = 0; i < 7; i++){
-                projectiles.add(new Projectile("player_proj", proj_sprite, 8,500, x, y, turned_vecs[i][0], turned_vecs[i][1], 5, 15, 15));
+                projectiles.add(new Projectile("player_proj", proj_sprite, 15,1000, x, y, turned_vecs[i][0], turned_vecs[i][1], 5, 15, 15));
             }
 
             last_shot = System.currentTimeMillis();

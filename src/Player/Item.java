@@ -65,7 +65,7 @@ public abstract class Item  extends Entity {
         items.add(this);
     }
 
-    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y){}
+    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y, Player player){}
 
     public double[] getVector() {
         // set center to 0,0

@@ -4,7 +4,9 @@ import Entity.CollisionBox;
 import Entity.Enemy;
 import Entity.Projectile;
 import Images.ImageLoader;
+import Main.RandomGenerator;
 import Player.Item;
+import Player.Items.Slime_Juice;
 
 import java.util.ArrayList;
 
@@ -39,7 +41,11 @@ public class Slime extends Enemy {
         updateSpawn(); // easier to just call from here
     }
 
-    public void dropItem(ArrayList<Item> items) { }
+    public void dropItem(ArrayList<Item> items) {
+        if (RandomGenerator.getRandom(1, 100) <= 20) {
+            items.add(new Slime_Juice((int)room_x, (int)room_y));
+        }
+    }
 
     public void updateSpawn() {
         if (System.currentTimeMillis() - last_duplicate > duplicate_delay) {

@@ -5,7 +5,10 @@ import Entity.CollisionBox;
 import Entity.Enemy;
 import Entity.Projectile;
 import Images.ImageLoader;
+import Main.RandomGenerator;
 import Player.Item;
+import Player.Items.Minotaur_Shirt;
+import Player.Items.Sniper_Stick;
 import Player.Player;
 
 import java.awt.image.BufferedImage;
@@ -53,7 +56,11 @@ public class Minotaur extends Enemy {
 
     public void shoot(ArrayList<Projectile> projectiles) {}
 
-    public void dropItem(ArrayList<Item> items) { }
+    public void dropItem(ArrayList<Item> items) {
+        if (RandomGenerator.getRandom(1, 100) <= 20) {
+            items.add(new Minotaur_Shirt((int)room_x, (int)room_y));
+        }
+    }
 
     public void move(Player player) {
         super.move(player);

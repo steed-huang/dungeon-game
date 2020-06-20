@@ -6,6 +6,8 @@ import Entity.Projectile;
 import Images.ImageLoader;
 import Main.RandomGenerator;
 import Player.Item;
+import Player.Items.Magic_Ball;
+import Player.Items.Narwhal_Stick;
 import Player.Items.Triple_Stick;
 import Player.Player;
 
@@ -55,14 +57,14 @@ public class Narwhal extends Enemy {
 
     public void shoot(ArrayList<Projectile> projectiles) {
         if (stationary && System.currentTimeMillis() - last_shot >= shot_delay) {
-            projectiles.add(new Projectile("narwhalproj", proj_sprite, 1, 600, room_x, room_y, dx, dy, 8, 15, 15));
+            projectiles.add(new Projectile("narwhalproj", proj_sprite, 2, 700, room_x, room_y, dx, dy, 8, 15, 15));
             last_shot = System.currentTimeMillis();
         }
     }
 
     public void move(Player player) {
         super.move(player);
-        if (dist < 320 && System.currentTimeMillis() - last_inbetween_stationary > inbetween_stationary_delay) {
+        if (dist < 500 && System.currentTimeMillis() - last_inbetween_stationary > inbetween_stationary_delay) {
             stationary = true;
             last_stationary = System.currentTimeMillis();
             last_inbetween_stationary = System.currentTimeMillis();
@@ -78,7 +80,11 @@ public class Narwhal extends Enemy {
         }
     }
 
-    public void dropItem(ArrayList<Item> items) {}
+    public void dropItem(ArrayList<Item> items) {
+        if (RandomGenerator.getRandom(1, 100) <= 20) {
+            items.add(new Narwhal_Stick((int)room_x, (int)room_y));
+        }
+    }
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         this.draw(g, x, y, (int)room_x, (int)room_y);

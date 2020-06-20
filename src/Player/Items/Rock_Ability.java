@@ -7,16 +7,16 @@ import Player.Player;
 
 import java.util.ArrayList;
 
-public class Brown_Book extends Item {
+public class Rock_Ability extends Item {
 
-    public Brown_Book(int room_x, int room_y) {
-        super("ability", room_x, room_y, true);
+    public Rock_Ability(int room_x, int room_y) {
+        super("ability", room_x, room_y, false);
 
-        sprite = ImageLoader.getImage("brown_book.png");
-        proj_sprite = ImageLoader.getImage("fireball.png");
+        sprite = ImageLoader.getImage("rock_ability.png");
+        proj_sprite = ImageLoader.getImage("player_rock_proj.png");
 
         this.last_shot = 0;
-        this.shot_delay = 4000;
+        this.shot_delay = 8000;
     }
 
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y, Player player) {
@@ -24,10 +24,9 @@ public class Brown_Book extends Item {
         if (!this.ready && ready) this.ready = true;
         if (firing && ready) {
             double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj", proj_sprite, 25,1000, x, y, vec[0], vec[1], 5, 30, 30));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 50,5000, x, y, vec[0], vec[1], 3, 50, 50));
             last_shot = System.currentTimeMillis();
             this.ready = false;
         }
     }
-
 }

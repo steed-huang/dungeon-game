@@ -7,27 +7,26 @@ import Player.Player;
 
 import java.util.ArrayList;
 
-public class Brown_Book extends Item {
+public class Minotaur_Shirt extends Item {
 
-    public Brown_Book(int room_x, int room_y) {
-        super("ability", room_x, room_y, true);
+    public Minotaur_Shirt(int room_x, int room_y) {
+        super("ability", room_x, room_y, false);
 
-        sprite = ImageLoader.getImage("brown_book.png");
-        proj_sprite = ImageLoader.getImage("fireball.png");
+        sprite = ImageLoader.getImage("minotaur_shirt.png");
 
         this.last_shot = 0;
-        this.shot_delay = 4000;
+        this.shot_delay = 8000;
     }
 
     public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y, Player player) {
         boolean ready = System.currentTimeMillis() - last_shot >= shot_delay;
         if (!this.ready && ready) this.ready = true;
         if (firing && ready) {
-            double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj", proj_sprite, 25,1000, x, y, vec[0], vec[1], 5, 30, 30));
+            player.setLastSpeed(System.currentTimeMillis());
+            player.setSpeed(9);
+
             last_shot = System.currentTimeMillis();
             this.ready = false;
         }
     }
-
 }

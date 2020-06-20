@@ -3,6 +3,8 @@ package Player.Items;
 import Entity.Projectile;
 import Player.Item;
 import Images.ImageLoader;
+import Player.Player;
+
 import java.util.ArrayList;
 
 public class Sniper_Stick extends Item {
@@ -17,10 +19,10 @@ public class Sniper_Stick extends Item {
         this.shot_delay = 1500;
     }
 
-    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y) {
+    public void shoot(boolean firing, ArrayList<Projectile> projectiles, double x, double y, Player player) {
         if (firing && System.currentTimeMillis() - last_shot >= shot_delay) {
             double[] vec = getVector();
-            projectiles.add(new Projectile("player_proj", proj_sprite, 20,500, x, y, vec[0], vec[1], 15, 20, 20));
+            projectiles.add(new Projectile("player_proj", proj_sprite, 25,500, x, y, vec[0], vec[1], 15, 20, 20));
             last_shot = System.currentTimeMillis();
         }
     }

@@ -5,6 +5,7 @@ import Entity.Enemy;
 import Entity.Projectile;
 import Images.ImageLoader;
 import Main.RandomGenerator;
+import Player.Items.Rock_Ability;
 import Player.Items.Sniper_Stick;
 import Player.Player;
 import Player.Item;
@@ -49,13 +50,17 @@ public class Golem extends Enemy {
                 dx /= length;
                 dy /= length;
             }
-            if (dist < 250) { // run away when close
+            if (dist < 150) { // run away when close
                 if (speed > 0) speed *= -1;
             } else if (speed < 0) speed *= -1;
         }
     }
 
-    public void dropItem(ArrayList<Item> items) {}
+    public void dropItem(ArrayList<Item> items) {
+        if (RandomGenerator.getRandom(1, 100) <= 20) {
+            items.add(new Rock_Ability((int)room_x, (int)room_y));
+        }
+    }
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y, (int)room_x, (int)room_y);

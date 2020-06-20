@@ -5,6 +5,8 @@ import Entity.Enemy;
 import Entity.Projectile;
 import Images.ImageLoader;
 import Main.RandomGenerator;
+import Player.Items.Magic_Ball;
+import Player.Items.Random_Stick;
 import Player.Items.Sniper_Stick;
 import Player.Player;
 import Player.Item;
@@ -66,7 +68,11 @@ public class Wizard extends Enemy {
         }
     }
 
-    public void dropItem(ArrayList<Item> items) {}
+    public void dropItem(ArrayList<Item> items) {
+        if (RandomGenerator.getRandom(1, 100) <= 20) {
+            items.add(new Random_Stick((int)room_x, (int)room_y));
+        }
+    }
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y, (int)room_x, (int)room_y);
