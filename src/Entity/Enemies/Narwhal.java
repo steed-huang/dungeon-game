@@ -50,7 +50,7 @@ public class Narwhal extends Enemy {
         stationary_delay = 2000;
         last_stationary = 0;
 
-        cb = new CollisionBox("zombie", width, height, room_x, room_y);
+        cb = new CollisionBox("narwhal", width, height, room_x, room_y);
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {
@@ -79,11 +79,7 @@ public class Narwhal extends Enemy {
         }
     }
 
-    public void dropItem(ArrayList<Item> items) {
-        if (RandomGenerator.getRandom(1, 100) <= 20) {
-            items.add(new Triple_Stick((int)room_x, (int)room_y));
-        }
-    }
+    public void dropItem(ArrayList<Item> items) {}
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         this.draw(g, x, y, (int)room_x, (int)room_y);

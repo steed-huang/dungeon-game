@@ -25,12 +25,12 @@ public class NormalRoom extends Room {
                             else if (enemy == 3) enemies.add(new Skeleton(col * 50 + 25, row * 50 + 25));
                         }
                         else if (current_level == 2){
+                            if (enemy == 1) enemies.add(new Slime(col * 50 + 25, row * 50 + 25));
+                        }
+                        else if (current_level == 3){
                             if (enemy == 1) enemies.add(new Imp(col * 50 + 25, row * 50 + 25));
                             else if (enemy == 2) enemies.add(new Golem(col * 50 + 25, row * 50 + 25));
                             else if (enemy == 3) enemies.add(new Narwhal(col * 50 + 25, row * 50 + 25));
-                        }
-                        else if (current_level == 3){
-
                         }
                         temp_enemy_count--;
                     }

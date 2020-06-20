@@ -28,6 +28,9 @@ public abstract class Enemy extends Entity {
     protected double py;
     protected double dist;
 
+    // slime spawning
+    protected boolean spawn;
+
     public Enemy (int room_x, int room_y) {
         this.room_x = room_x;
         this.room_y = room_y;
@@ -98,6 +101,8 @@ public abstract class Enemy extends Entity {
     public abstract void shoot( ArrayList<Projectile> projectiles);
     public void hit(double dmg) { health -= dmg; }
     public boolean getAlive() { return alive;}
+    public boolean getSpawn() { return spawn; }
+    public void setSpawn(boolean b) { spawn = b; }
 
     public void checkAlive(ArrayList<Item> items) {
         if (health <= 0){

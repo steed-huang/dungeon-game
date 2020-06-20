@@ -1,8 +1,10 @@
 package GameState;
 
 import Entity.CollisionBox;
+import Entity.Enemies.BabySlime;
 import Entity.Enemies.Golemite;
 import Entity.Enemy;
+import Entity.Enemies.Slime;
 import Entity.Projectile;
 import Handler.Keys;
 import Handler.Mouse;
@@ -33,9 +35,6 @@ public class LevelState extends GameState {
     private ArrayList<Item> items = new ArrayList<>();
 
     private boolean restart = true;
-    private int spawn_children = -1;
-    private int spawn_x;
-    private int spawn_y;
 
     private int level_kill_count;
     public static int current_level = 1;
@@ -47,8 +46,8 @@ public class LevelState extends GameState {
     public void init() {
         bg = new Background("/Assets/black.jpg", 0);
         fog[0] = new Background("/Assets/fog.png", 0);
-        fog[1] = new Background("/Assets/red_fog.png", 0);
-        fog[2] = new Background("/Assets/purple_fog.png", 0);
+        fog[1] = new Background("/Assets/purple_fog.png", 0);
+        fog[2] = new Background("/Assets/red_fog.png", 0);
 
         level_kill_count = 0;
 
@@ -82,28 +81,47 @@ public class LevelState extends GameState {
             p.update(cbs, projectiles, enemies, player);
             if (p.getRemove()) i.remove();
         }
+
+        // slime spawn positions
+        ArrayList<Integer> s_x = new ArrayList<>();
+        ArrayList<Integer> s_y = new ArrayList<>();
+
+        // golem spawn positions
+        ArrayList<Integer> g_x = new ArrayList<>();
+        ArrayList<Integer> g_y = new ArrayList<>();
+
         for (Iterator<Enemy> i = enemies.iterator(); i.hasNext(); ) {
             Enemy e = i.next();
             e.update(cbs, projectiles, enemies, items, player);
+            if (e.getCB().getType().equals("slime")){ // slime spawns
+                if (e.getSpawn()) {
+                    s_x.add(e.x_r_pos());
+                    s_y.add(e.y_r_pos());
+                    e.setSpawn(false);
+                }
+            }
             if (!e.getAlive()) {
                 player.addScore(100);
-                level_kill_count++;
+                // increase kill count if not baby slime or golemite
+                if (!e.getCB().getType().equals("babyslime") && !e.getCB().getType().equals("golemite")) level_kill_count++;
                 if (level_kill_count == 10) {
                     items.add(new Portal(player.x_r_pos(), player.y_r_pos(), gsm));
                     restart = false;
                 }
-                if (e.getCB().getType().equals("golem")){ // if golem
-                    spawn_children = 0;
-                    spawn_x = e.x_r_pos();
-                    spawn_y = e.y_r_pos();
+                if (e.getCB().getType().equals("golem")){ // golem spawns
+                    g_x.add(e.x_r_pos());
+                    g_y.add(e.y_r_pos());
                 }
                 i.remove();
             }
         }
-        if (spawn_children == 0) { // spawn golem children
-            enemies.add(new Golemite(spawn_x+10, spawn_y+10, 1));
-            enemies.add(new Golemite(spawn_x-10, spawn_y-10, 2));
-            spawn_children = -1;
+
+        for (int i = 0; i < g_x.size(); i++) { // spawn slime children
+            enemies.add(new Golemite(g_x.get(i)+10, g_y.get(i)+10, 1));
+            enemies.add(new Golemite(g_x.get(i)-10, g_y.get(i)-10, 2));
+        }
+        for (int i = 0; i < s_x.size(); i++) { // spawn slime children
+            enemies.add(new BabySlime(s_x.get(i), s_y.get(i)));
         }
 
         items.removeIf(i -> i.getPickedUp());
