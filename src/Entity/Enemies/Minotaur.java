@@ -1,21 +1,22 @@
 package Entity.Enemies;
 
+
 import Entity.CollisionBox;
 import Entity.Enemy;
 import Entity.Projectile;
 import Images.ImageLoader;
-import Main.RandomGenerator;
 import Player.Item;
-import Player.Items.Triple_Stick;
 import Player.Player;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Narwhal extends Enemy {
+public class Minotaur extends Enemy {
 
-    private static BufferedImage shooting_sprite;
+    // moving sprite
+    private BufferedImage charging_sprite;
 
+    // stationary to simulate charging in between delays
     private boolean stationary;
 
     private long inbetween_stationary_delay; // delay between stationary
@@ -24,45 +25,39 @@ public class Narwhal extends Enemy {
     private long stationary_delay; // how long it is stationary
     private long last_stationary;
 
-    public Narwhal(int room_x, int room_y) {
+    public Minotaur(int room_x, int room_y) {
         super(room_x, room_y);
 
-        sprite = ImageLoader.getImage("narwhal.png");
-        if (shooting_sprite == null) shooting_sprite = ImageLoader.getImage("yawn_narwhal.png");
-        proj_sprite = ImageLoader.getImage("narwhalproj.png");
+        sprite = ImageLoader.getImage("minotaur.png");
+        if (charging_sprite == null) charging_sprite = ImageLoader.getImage("minotaur_charge.png");
 
         alive = true;
-        health = 75;
-        maxHealth = 75;
-        speed = 2;
-        touch_dmg = 5;
+        health = 70;
+        maxHealth = 70;
+        speed = 5;
+        touch_dmg = 10;
 
         width = 75;
-        height = 53; // weird dimension, I know
+        height = 75;
 
-        shot_delay = 100;
-
-        stationary = false;
-
-        inbetween_stationary_delay = 5000;
+        inbetween_stationary_delay = 3000;
         last_inbetween_stationary = 0;
 
         stationary_delay = 2000;
         last_stationary = 0;
 
-        cb = new CollisionBox("narwhal", width, height, room_x, room_y);
+        stationary = false;
+
+        cb = new CollisionBox("minotaur", width, height, room_x, room_y);
     }
 
-    public void shoot(ArrayList<Projectile> projectiles) {
-        if (stationary && System.currentTimeMillis() - last_shot >= shot_delay) {
-            projectiles.add(new Projectile("narwhalproj", proj_sprite, 1, 600, room_x, room_y, dx, dy, 8, 15, 15));
-            last_shot = System.currentTimeMillis();
-        }
-    }
+    public void shoot(ArrayList<Projectile> projectiles) {}
+
+    public void dropItem(ArrayList<Item> items) { }
 
     public void move(Player player) {
         super.move(player);
-        if (dist < 320 && System.currentTimeMillis() - last_inbetween_stationary > inbetween_stationary_delay) {
+        if (dist < 500 && System.currentTimeMillis() - last_inbetween_stationary > inbetween_stationary_delay) {
             stationary = true;
             last_stationary = System.currentTimeMillis();
             last_inbetween_stationary = System.currentTimeMillis();
@@ -74,11 +69,9 @@ public class Narwhal extends Enemy {
     public void updateStationary() {
         if (stationary && System.currentTimeMillis() - last_stationary > stationary_delay) {
             stationary = false;
-            speed = 2;
+            speed = 5;
         }
     }
-
-    public void dropItem(ArrayList<Item> items) {}
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         this.draw(g, x, y, (int)room_x, (int)room_y);
@@ -87,8 +80,8 @@ public class Narwhal extends Enemy {
 
     public void draw(java.awt.Graphics2D g, int px, int py, int x, int y) {
         if(onScreen(px, py)){
-            if (!stationary) g.drawImage(sprite,512-px+(x - width/2),384-py+(y - height/2), null);
-            else g.drawImage(shooting_sprite,512-px+(x - width/2),384-py+(y - height/2), null);
+            if (!stationary) g.drawImage(charging_sprite,512-px+(x - width/2),384-py+(y - height/2), null);
+            else g.drawImage(sprite,512-px+(x - width/2),384-py+(y - height/2), null);
         }
     }
 

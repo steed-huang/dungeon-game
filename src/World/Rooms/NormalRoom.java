@@ -19,7 +19,7 @@ public class NormalRoom extends Room {
                 if (layout.grid[row+1][col] != 2 && layout.grid[row-1][col] != 2 &&  layout.grid[row][col-1] != 2 &&  layout.grid[row][col+1] != 2){
                     if (layout.grid[row+1][col+1] != 2 && layout.grid[row+1][col-1] != 2 &&  layout.grid[row-1][col+1] != 2 &&  layout.grid[row-1][col-1] != 2) {
                         int enemy = RandomGenerator.getRandom(1, 3);
-                        if (current_level == 1){
+                        if (current_level == 1){ // different enemies on each level
                             if (enemy == 1) enemies.add(new Ghost(col * 50 + 25, row * 50 + 25));
                             else if (enemy == 2) enemies.add(new Zombie(col * 50 + 25, row * 50 + 25));
                             else if (enemy == 3) enemies.add(new Skeleton(col * 50 + 25, row * 50 + 25));
@@ -27,6 +27,7 @@ public class NormalRoom extends Room {
                         else if (current_level == 2){
                             if (enemy == 1) enemies.add(new Slime(col * 50 + 25, row * 50 + 25));
                             else if (enemy == 2) enemies.add(new Wizard(col * 50 + 25, row * 50 + 25));
+                            else if (enemy == 3) enemies.add(new Minotaur(col * 50 + 25, row * 50 + 25));
                         }
                         else if (current_level == 3){
                             if (enemy == 1) enemies.add(new Imp(col * 50 + 25, row * 50 + 25));

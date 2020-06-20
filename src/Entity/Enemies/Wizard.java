@@ -26,8 +26,8 @@ public class Wizard extends Enemy {
         proj_sprites[3] = ImageLoader.getImage("wizard_proj_4.png");
 
         alive = true;
-        health = 70;
-        maxHealth = 70;
+        health = 50;
+        maxHealth = 50;
         speed = 1;
         touch_dmg = 1;
 
@@ -66,11 +66,7 @@ public class Wizard extends Enemy {
         }
     }
 
-    public void dropItem(ArrayList<Item> items) {
-        if (RandomGenerator.getRandom(1, 100) <= 20) {
-            items.add(new Sniper_Stick((int)room_x, (int)room_y));
-        }
-    }
+    public void dropItem(ArrayList<Item> items) {}
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y, (int)room_x, (int)room_y);
