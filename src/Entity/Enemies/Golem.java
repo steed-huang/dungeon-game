@@ -19,8 +19,8 @@ public class Golem extends Enemy {
         proj_sprite = ImageLoader.getImage("golem_boulder.png");
 
         alive = true;
-        health = 90;
-        maxHealth = 90;
+        health = 120;
+        maxHealth = 120;
         speed = 1;
         touch_dmg = 5;
 

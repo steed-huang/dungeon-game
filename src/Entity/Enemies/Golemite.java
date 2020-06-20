@@ -18,8 +18,8 @@ public class Golemite extends Enemy {
         sprite = ImageLoader.getImage("golemite_" + num + ".png");
 
         alive = true;
-        health = 30;
-        maxHealth = 30;
+        health = 50;
+        maxHealth = 50;
         if (num == 1) speed = 2.5;
         else if (num == 2) speed = 2;
         touch_dmg = 5;

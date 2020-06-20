@@ -26,6 +26,7 @@ public class NormalRoom extends Room {
                         }
                         else if (current_level == 2){
                             if (enemy == 1) enemies.add(new Slime(col * 50 + 25, row * 50 + 25));
+                            else if (enemy == 2) enemies.add(new Wizard(col * 50 + 25, row * 50 + 25));
                         }
                         else if (current_level == 3){
                             if (enemy == 1) enemies.add(new Imp(col * 50 + 25, row * 50 + 25));

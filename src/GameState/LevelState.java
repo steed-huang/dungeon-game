@@ -130,6 +130,7 @@ public class LevelState extends GameState {
 
         if (!player.getAlive()) { // player died
             restart = true;
+            current_level = 1;
             gsm.setState(GameStateManager.LOST, player.getScore());
         }
     }

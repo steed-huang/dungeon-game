@@ -22,7 +22,7 @@ public class Ghost extends Enemy {
         health = 15;
         maxHealth = 15;
         speed = 4;
-        touch_dmg = 3;
+        touch_dmg = 1;
 
         width = 50;
         height = 50;

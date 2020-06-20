@@ -32,8 +32,8 @@ public class Narwhal extends Enemy {
         proj_sprite = ImageLoader.getImage("narwhalproj.png");
 
         alive = true;
-        health = 50;
-        maxHealth = 50;
+        health = 75;
+        maxHealth = 75;
         speed = 2;
         touch_dmg = 5;
 

@@ -19,8 +19,8 @@ public class Slime extends Enemy {
         sprite = ImageLoader.getImage("slime.png");
 
         alive = true;
-        health = 100;
-        maxHealth = 100;
+        health = 90;
+        maxHealth = 90;
         speed = 0.5;
         touch_dmg = 10;
 
