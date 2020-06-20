@@ -5,6 +5,7 @@ import GameState.LevelState;
 import Images.ImageLoader;
 import Player.Inventory;
 import Player.Item;
+import Player.Player;
 
 import java.util.ArrayList;
 
@@ -23,8 +24,12 @@ public class Portal extends Item {
         this.gsm = gsm;
     }
 
-    public void pickUp(Inventory inv, ArrayList<Item> items) {
+    public void pickUp(Inventory inv, ArrayList<Item> items, Player player) {
         LevelState.current_level += 1;
-        gsm.setState(GameStateManager.LEVEL);
+        if (LevelState.current_level == 4) {
+            gsm.setState(GameStateManager.WON, player.getScore()); // you win
+            LevelState.current_level = 1;
+        }
+        else gsm.setState(GameStateManager.LEVEL); // next level
     }
 }

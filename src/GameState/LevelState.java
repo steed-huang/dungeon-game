@@ -37,7 +37,7 @@ public class LevelState extends GameState {
     private boolean restart = true;
 
     private int level_kill_count;
-    public static int current_level = 1;
+    public static int current_level = 1; // you can change this to 1, 2, 3
 
     public LevelState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -103,7 +103,7 @@ public class LevelState extends GameState {
             if (!e.getAlive()) {
                 player.addScore(100);
                 // increase kill count if not baby slime or golemite
-                if (!e.getCB().getType().equals("babyslime") && !e.getCB().getType().equals("golemite")) level_kill_count++;
+                level_kill_count++;
                 if (level_kill_count == 10) {
                     items.add(new Portal(player.x_r_pos(), player.y_r_pos(), gsm));
                     restart = false;

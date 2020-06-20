@@ -137,7 +137,7 @@ public class Player extends Entity {
     protected void checkItemCollision(ArrayList<Item> items) {
         for (Item i : items) {
             i.setReachable(this.cb.collidesWith(i.getCB()));
-            if (picking && i.getReachable()) { i.pickUp(inv, items); break; } // pick up
+            if (picking && i.getReachable()) { i.pickUp(inv, items, this); break; } // pick up
         }
     }
 

@@ -13,6 +13,7 @@ public class GameStateManager {
     public static final int LEADERBOARD = 3;
     public static final int LEVEL = 4;
     public static final int LOST = 5;
+    public static final int WON = 6;
 
     public GameStateManager() {
         gameStates = new ArrayList<GameState>();
@@ -25,6 +26,7 @@ public class GameStateManager {
         gameStates.add(new LeaderboardState(this));
         gameStates.add(new LevelState(this));
         gameStates.add(new LostState(this));
+        gameStates.add(new VictoryState(this));
     }
 
     public void setState(int state) {

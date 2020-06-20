@@ -42,7 +42,7 @@ public abstract class Item  extends Entity {
     public boolean getReachable() { return reachable; }
     public void setReachable(boolean b) { reachable = b; }
 
-    public void pickUp(Inventory inv, ArrayList<Item> items) {
+    public void pickUp(Inventory inv, ArrayList<Item> items, Player player) {
         if (type.equals("weapon")){
             Item current = inv.getWeapon(); // drop old
             current.setRoomPosition(room_x, room_y);

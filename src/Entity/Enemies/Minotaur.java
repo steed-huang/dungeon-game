@@ -40,10 +40,10 @@ public class Minotaur extends Enemy {
         width = 75;
         height = 75;
 
-        inbetween_stationary_delay = 3000;
+        inbetween_stationary_delay = 3500;
         last_inbetween_stationary = 0;
 
-        stationary_delay = 2000;
+        stationary_delay = 1500;
         last_stationary = 0;
 
         stationary = false;
