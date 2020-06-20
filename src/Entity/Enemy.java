@@ -77,7 +77,7 @@ public abstract class Enemy extends Entity {
 
     public void move(Player player) { // default movement | add a* later if I add more obstacles
         dx = 0; dy = 0;
-        if (dist < 350) { // within 350px
+        if (dist < 400) { // within 400px
             dx = px - room_x;
             dy = py - room_y;
 

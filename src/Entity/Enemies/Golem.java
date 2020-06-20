@@ -11,38 +11,37 @@ import Player.Item;
 
 import java.util.ArrayList;
 
-public class Skeleton extends Enemy {
-
-    public Skeleton(int room_x, int room_y) {
+public class Golem extends Enemy {
+    public Golem(int room_x, int room_y) {
         super(room_x, room_y);
 
-        sprite = ImageLoader.getImage("skeleton.png");
-        proj_sprite = ImageLoader.getImage("skeleproj.png");
+        sprite = ImageLoader.getImage("golem.png");
+        proj_sprite = ImageLoader.getImage("golem_boulder.png");
 
         alive = true;
-        health = 30;
-        maxHealth = 30;
-        speed = 2;
-        touch_dmg = 1;
+        health = 90;
+        maxHealth = 90;
+        speed = 1;
+        touch_dmg = 5;
 
-        width = 60;
-        height = 60;
+        width = 110;
+        height = 110;
 
-        shot_delay = 500;
+        shot_delay = 3500;
 
-        cb = new CollisionBox("skeleton", width, height, room_x, room_y);
+        cb = new CollisionBox("golem", width, height, room_x, room_y);
     }
 
     public void shoot(ArrayList<Projectile> projectiles) {
-        if (System.currentTimeMillis() - last_shot >= shot_delay && dist < 280) {
-            projectiles.add(new Projectile("skele_proj", proj_sprite, 3,1200, room_x, room_y, dx, dy, 4, 10, 10));
+        if (System.currentTimeMillis() - last_shot >= shot_delay && dist < 260) {
+            projectiles.add(new Projectile("golem_proj", proj_sprite, 15,5000, room_x, room_y, dx, dy, 2, 40, 40));
             last_shot = System.currentTimeMillis();
         }
     }
 
     public void move(Player player) { // default movement | add a* later if I add more obstacles
         dx = 0; dy = 0;
-        if (dist < 450) { // within 450px
+        if (dist < 500) { // within 400px
             dx = px - room_x;
             dy = py - room_y;
             if (dx != 0 || dy != 0) {
@@ -50,17 +49,13 @@ public class Skeleton extends Enemy {
                 dx /= length;
                 dy /= length;
             }
-            if (dist < 270) { // run away when close
+            if (dist < 250) { // run away when close
                 if (speed > 0) speed *= -1;
             } else if (speed < 0) speed *= -1;
         }
     }
 
-    public void dropItem(ArrayList<Item> items) {
-        if (RandomGenerator.getRandom(1, 100) <= 20) {
-            items.add(new Sniper_Stick((int)room_x, (int)room_y));
-        }
-    }
+    public void dropItem(ArrayList<Item> items) {}
 
     public void draw(java.awt.Graphics2D g, int x, int y) {
         super.draw(g, x, y, (int)room_x, (int)room_y);

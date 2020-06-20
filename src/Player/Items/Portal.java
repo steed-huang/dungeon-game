@@ -1,6 +1,7 @@
 package Player.Items;
 
 import GameState.GameStateManager;
+import GameState.LevelState;
 import Images.ImageLoader;
 import Player.Inventory;
 import Player.Item;
@@ -23,6 +24,7 @@ public class Portal extends Item {
     }
 
     public void pickUp(Inventory inv, ArrayList<Item> items) {
+        LevelState.current_level += 1;
         gsm.setState(GameStateManager.LEVEL);
     }
 }

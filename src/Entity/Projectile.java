@@ -63,6 +63,7 @@ public class Projectile extends Entity {
         } else { // enemy projectile hitting player
             if ((cb.collidesWith(player.getCB()))) {
                 player.hit(dmg);
+                if (cb.getType().equals("imp_proj")) player.paralyze();
                 remove = true;
             }
         }

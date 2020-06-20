@@ -1,6 +1,7 @@
 package GameState;
 
 import Entity.CollisionBox;
+import Entity.Enemies.Golemite;
 import Entity.Enemy;
 import Entity.Projectile;
 import Handler.Keys;
@@ -20,7 +21,7 @@ import java.util.Iterator;
 public class LevelState extends GameState {
 
     private Background bg;
-    private Background fog;
+    private Background[] fog = new Background[3];
     private Map level;
     private Room cur_room;
     private Player player;
@@ -32,9 +33,12 @@ public class LevelState extends GameState {
     private ArrayList<Item> items = new ArrayList<>();
 
     private boolean restart = true;
+    private int spawn_children = -1;
+    private int spawn_x;
+    private int spawn_y;
 
     private int level_kill_count;
-    private static int current_level = 1;
+    public static int current_level = 1;
 
     public LevelState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -42,19 +46,24 @@ public class LevelState extends GameState {
 
     public void init() {
         bg = new Background("/Assets/black.jpg", 0);
-        fog = new Background("/Assets/fog.png", 0);
-
-        System.out.println(current_level);
+        fog[0] = new Background("/Assets/fog.png", 0);
+        fog[1] = new Background("/Assets/red_fog.png", 0);
+        fog[2] = new Background("/Assets/purple_fog.png", 0);
 
         level_kill_count = 0;
 
         level = new Map();
-        level.generateMap();
+        level.generateMap(current_level);
         level.printBaseLayout();
         level.printLayout();
 
+        System.out.println("Current Level: " + current_level);
+
         if (restart) player = new Player(level.getSpawnRow(), level.getSpawnCol());
-        else player.setMapPos(level.getSpawnRow(), level.getSpawnCol());
+        else {
+            player.setMapPos(level.getSpawnRow(), level.getSpawnCol());
+            player.setRoomPosition(750, 750);
+        }
 
         hud = new HUD(player);
 
@@ -82,11 +91,21 @@ public class LevelState extends GameState {
                 if (level_kill_count == 10) {
                     items.add(new Portal(player.x_r_pos(), player.y_r_pos(), gsm));
                     restart = false;
-                    current_level += 1;
+                }
+                if (e.getCB().getType().equals("golem")){ // if golem
+                    spawn_children = 0;
+                    spawn_x = e.x_r_pos();
+                    spawn_y = e.y_r_pos();
                 }
                 i.remove();
             }
         }
+        if (spawn_children == 0) { // spawn golem children
+            enemies.add(new Golemite(spawn_x+10, spawn_y+10, 1));
+            enemies.add(new Golemite(spawn_x-10, spawn_y-10, 2));
+            spawn_children = -1;
+        }
+
         items.removeIf(i -> i.getPickedUp());
         handleInput();
         doorCheck();
@@ -129,8 +148,6 @@ public class LevelState extends GameState {
         //System.out.printf("[%d, %d] \n", player.map_row, player.map_col);
     }
 
-
-
     public void draw(Graphics2D g) {
         int x = player.x_r_pos();
         int y = player.y_r_pos();
@@ -146,7 +163,7 @@ public class LevelState extends GameState {
         for (Enemy e : enemies) {
             e.draw(g, x, y);
         }
-        fog.draw(g);
+        fog[current_level-1].draw(g);
         hud.draw(g, player.getInv().getAbility().getReady());
         player.getInv().draw(g);
 

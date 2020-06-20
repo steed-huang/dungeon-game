@@ -41,7 +41,7 @@ public abstract class Room {
         }
     }
 
-    public abstract void generateEnemies();
+    public abstract void generateEnemies(int current_level);
 
     public ArrayList<CollisionBox> getCBS() { return cbs; }
     public ArrayList<Enemy> getEnemies() { return enemies; }

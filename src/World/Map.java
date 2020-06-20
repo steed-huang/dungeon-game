@@ -15,9 +15,9 @@ public class Map {
     private Room[][] layout = new Room[SIZE][SIZE]; // specifies room layout type
 
     // 0 - nothing, 1 - normal, 2 - spawn
-    public void generateMap() {
+    public void generateMap(int current_level) {
         generateRooms();
-        specifyLayout();
+        specifyLayout(current_level);
     }
 
     public int getSpawnRow() { return spawn_row; }
@@ -88,7 +88,7 @@ public class Map {
         }
     }
 
-    private void specifyLayout(){
+    private void specifyLayout(int current_level){
         for(int i = 0; i < SIZE; i++) {
             for(int j = 0; j < SIZE; j++) {
                 if(base_layout[i][j] != 0) {
@@ -103,7 +103,7 @@ public class Map {
 
                     layout[i][j].setDoors(up, down, left, right);
                     layout[i][j].generateWallCB();
-                    if (!(i == spawn_row && j == spawn_col)) layout[i][j].generateEnemies();
+                    if (!(i == spawn_row && j == spawn_col)) layout[i][j].generateEnemies(current_level);
                 }
             }
         }

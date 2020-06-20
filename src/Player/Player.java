@@ -6,7 +6,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import Entity.Projectile;
 import Entity.CollisionBox;
-import Handler.Mouse;
 import Player.Items.Brown_Book;
 import Player.Items.Magic_Stick;
 
@@ -34,6 +33,11 @@ public class Player extends Entity {
 
     // high score
     private int score;
+
+    // stunned
+    private boolean paralyzed;
+    private long last_paralyzed;
+    private long paralyze_delay;
 
     public Player(int r, int c){
         try {
@@ -66,6 +70,8 @@ public class Player extends Entity {
         ability_firing = false;
 
         picking = false;
+        paralyzed = false;
+        paralyze_delay = 300;
 
         score = 0;
     }
@@ -91,6 +97,7 @@ public class Player extends Entity {
         setRoomPosition(room_x, room_y);
         checkItemCollision(items);
         shoot(projectiles);
+        checkParalyze();
         checkAlive();
     }
 
@@ -120,8 +127,10 @@ public class Player extends Entity {
             double length = Math.sqrt(dx * dx + dy * dy);
             dx /= length;
             dy /= length;
-            room_x += dx * speed;
-            room_y += dy * speed;
+            if (!paralyzed){
+                room_x += dx * speed;
+                room_y += dy * speed;
+            }
         }
     }
 
@@ -135,6 +144,15 @@ public class Player extends Entity {
     public void shoot(ArrayList<Projectile> projectiles) {
         inv.getWeapon().shoot(firing, projectiles, room_x, room_y);
         inv.getAbility().shoot(ability_firing, projectiles, room_x, room_y);
+    }
+
+    public void paralyze() {
+        paralyzed = true;
+        last_paralyzed = System.currentTimeMillis();
+    }
+
+    public void checkParalyze(){
+        if (paralyzed && System.currentTimeMillis() - last_paralyzed > paralyze_delay) paralyzed = false;
     }
 
     public void setPicking(boolean b) { picking = b; }
