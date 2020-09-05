@@ -76,3 +76,6 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
+
+# other
+src/GameState/highscores.txt
